@@ -1,0 +1,100 @@
+Brick-lang demo
+
+# This is a comment
+###
+This is a block comment
+    Block comments can be indented and not lose formatting
+###
+
+# Object is implied inheritance, but is explicit here for 
+# demonstration purposes
+# Class inheritance hierarchy is determined
+# left-to-right for strictness
+class HelloClass < Class < Object
+
+    # This is a class variable. 
+    # It is a property of the class, not the instances
+    @@name = "John" 
+    
+    # all `init` functions have an implied
+    # return type of self.class() (here, HelloClass)
+    method init(name:String) -> HelloClass
+        @name = "" # ivars are denote by the '@' prefix
+        return self
+
+    # This is a method declaration
+    # Both the argument and return types
+    # are optional
+    # The last line of a method is used as the return value
+    # If the stated type and the return type are different,
+    # we attempt to automatically coerce the return value to
+    # the stated type
+    method hello(name:String) -> None
+        put "Hello %s" % name
+
+    # By redefining a method with different
+    # argument types, we can change the functionality
+    # depending on the arguments passed (like Java)
+    method hello(num:Int) -> None
+        num.times ->
+            put "Hello" 
+
+    # The splat character can be used as a
+    # wildcard for all types, and is used
+    # last when there are stricter matches
+    # For example Int > Numeric > *
+    # (Numeric is a parent of Int)
+    # This is only valid for argument type matching,
+    # and not for return types.
+    method hello(name:*)
+        put "Hello %s" name.to_s
+
+    # This is a multi-method
+    # All the code in the block gets executed __before__
+    # the corresponding method
+    # Note that the parens following a method definition
+    # are optional if there are no args.
+    method hello:before
+        put "Saying hello"
+
+    # This is also a multi-method
+    # All the code in this block get executed __after__
+    # the corresponding method
+    method hello:after
+        put "Done saying hello"
+
+    method lambda_demo
+        ["Hello"].map ->
+            # This is a lambda declaration
+            # The argument and return types are optional
+            lambda (word:String) -> String
+                 word += " World."
+
+        # This is shorthand for the same:
+        ["Hello"].map -> |word:String|
+            word += " World."
+
+    method concurrent_operations() -> None
+        # When operating on data structures that
+        # are able to be spliced, we can do operations
+        # concurrently using the '~>' instead '->'
+        ['Sam', 'Dave', 'John'].each ~> |name|
+            put name
+
+        # The output order is no longer deterministic,
+        # and might be Dave, Sam, John, or any combination
+        # possible.
+
+
+    # Similar to Erlang, match cases can be declared in the function header
+    # Matches are done in order of definition, in decreasing order of
+    # generality.
+    # In the case of constant returns, the return type can be replaced with
+    # the value.
+    method fib(0:Int) -> 0
+    method fib(1:Int) -> 1
+    method fib(num:Int) -> Int
+        fib(num-1) + fib(num-2)
+
+    
+
