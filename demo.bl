@@ -1,5 +1,3 @@
-Brick-lang demo
-
 # This is a comment
 ###
 This is a block comment
@@ -10,7 +8,7 @@ This is a block comment
 # demonstration purposes
 # Class inheritance hierarchy is determined
 # left-to-right for strictness
-class HelloClass < Class < Object
+class HelloClass < Class impl Shape
 
     # This is a class variable. 
     # It is a property of the class, not the instances
@@ -68,13 +66,14 @@ class HelloClass < Class < Object
             # This is a lambda declaration
             # The argument and return types are optional
             lambda (word:String) -> String
-                 word += " World."
+                word += " World."
 
         # This is shorthand for the same:
         ["Hello"].map -> |word:String|
             word += " World."
 
-    method concurrent_operations() -> None
+
+    method concurrent_operation
         # When operating on data structures that
         # are able to be spliced, we can do operations
         # concurrently using the '~>' instead '->'
@@ -84,7 +83,6 @@ class HelloClass < Class < Object
         # The output order is no longer deterministic,
         # and might be Dave, Sam, John, or any combination
         # possible.
-
 
     # Similar to Erlang, match cases can be declared in the function header
     # Matches are done in order of definition, in decreasing order of
@@ -96,5 +94,13 @@ class HelloClass < Class < Object
     method fib(num:Int) -> Int
         fib(num-1) + fib(num-2)
 
-    
+    # This is simply syntax sugar for match patterns:
+    method fib(num:Int) -> Int
+        match num
+            |0 -> 0
+            |1 -> 0
+            |* -> fib(num-1) + fib(num-2)
 
+
+    impl Greeter
+    
