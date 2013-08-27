@@ -149,7 +149,7 @@
 			<key>comment</key>
 			<string>everything being a reserved word, not a value and needing a 'end' is a..</string>
 			<key>match</key>
-			<string>(?&lt;!\.)\b(BEGIN|begin|case|class|else|elsif|ensure|for|if|impl|in|module|rescue|then|unless|until|when|while)\b(?![?!])</string>
+			<string>(?&lt;!\.)\b(BEGIN|begin|case|class|else|ensure|for|if|impl|in|match|module|rescue|then|unless|until|when|while)\b(?![?!])</string>
 			<key>name</key>
 			<string>keyword.control.brick</string>
 		</dict>
