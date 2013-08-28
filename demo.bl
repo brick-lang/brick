@@ -75,12 +75,7 @@ class HelloClass < Class impl Greeter
         ["Hello"].map -> |word:String|
             word += " World."
 
-<<<<<<< Updated upstream
-
     method concurrent_operation
-=======
-    method concurrent_operations -> None
->>>>>>> Stashed changes
         # When operating on data structures that
         # are able to be spliced, we can do operations
         # concurrently using the '~>' instead '->'
