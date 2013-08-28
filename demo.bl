@@ -6,8 +6,6 @@ This is a block comment
 
 # Object is implied inheritance, but is explicit here for 
 # demonstration purposes
-# Class inheritance hierarchy is determined
-# left-to-right for strictness
 # Traits are used for interfaces/method inheritance
 class HelloClass < Class impl Greeter
 
