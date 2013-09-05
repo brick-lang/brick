@@ -154,6 +154,9 @@ method more_pattern_matching(n:String) -> Bool
 # This is an example of the 'cond' keyword.
 # You may notice it looks very similar to how the 'match' keyword works.
 # This is intentional. Conditional matching is very powerful feature from LISP.
+# At a basic level, match is a cond statement, with lexical bindings that allow one variable
+# on the LHS. Cond, therefore, is much more flexible, and can do anything that match can, with
+# a bit more code.
 method gcd(a:Int, b:Int) -> Int
     cond
         |a == b -> a
