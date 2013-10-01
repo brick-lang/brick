@@ -38,7 +38,7 @@ U+000A (LF, '\n') or U+000D (CR, '\r')
 break
 cond
 do datatype
-else extern
+else
 false fn
 if impl
 let loop
@@ -50,3 +50,4 @@ true trait type
 unsafe use
 while
 ```
+
