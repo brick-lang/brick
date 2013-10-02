@@ -6,25 +6,25 @@
 
 # The trait keyword is used to declare a new trait.
 # Only method signatures are allowed in the block.
-trait Greeter < Trait
+trait Greeter : Trait
     greet(name:String) -> Bool
 
 
 # Object is implied inheritance, but is explicit here for 
 # demonstration purposes
 # Traits are used for interfaces/method inheritance
-class HelloClass < Class impl Greeter
+class HelloClass : Class impl Greeter
     # This is the member block
 	# It declares the structure of the object
     members
-        String name
-        String $alias  # constant variable, locks after first assignment
+        name : String
+        $alias : String  # constant variable, locks after first assignment
         private
-		Int private_var
+		private_var : Int
 
 
     # This is a class variable. 
-    # It is a _property_ of the class, not the instances.
+    # It is a property of the _class_, not the instances.
     # Implicit getters are available from anywhere, while instances
     # of the class can assign to it
     @@last_name = "Johnson" 
@@ -141,15 +141,15 @@ method fib(num:Int) -> Int
 # This is simply syntax sugar for match patterns:
 method fib(num:Int) -> Int
     match num
-        |0 -> 0
-        |1 -> 0
-        |* -> fib(num-1) + fib(num-2)
+        | 0 -> 0
+        | 1 -> 0
+        | * -> fib(num-1) + fib(num-2)
 
 method more_pattern_matching(n:String) -> String
     match n
-        |'0'     -> put "Zero"
-        |/[1-9]/ -> put "One through Nine"
-        |*       -> put "Something else"
+        | '0'     -> put "Zero"
+        | /[1-9]/ -> put "One through Nine"
+        | *       -> put "Something else"
 
 # This is an example of the 'cond' keyword.
 # You may notice it looks very similar to how the 'match' keyword works.
@@ -158,17 +158,15 @@ method more_pattern_matching(n:String) -> String
 # on the LHS. Cond, therefore, is much more flexible, and can do anything that match can, with
 # a bit more code.
 method gcd(a:Int, b:Int) -> Int
-    cond 
-        |a == b -> a
-        |a > b  -> gcd(a-b, b)
-        |*      -> gcd(b-a, a)
+    cond | a == b -> a
+         | a > b  -> gcd(a - b, b)
+         | *      -> gcd(b - a, a)
 
 macro our_when(condition, *body)
-    template
-        if ,condition
-            ,body
+    `if ,condition
+        ,body
 
 method let_demo -> Int
-    let | x -> 1
-        | y -> x
+    let | x = 1 -> x +! 1
+        | y = x
         return y
