@@ -13,14 +13,14 @@ trait Greeter < Trait
 # Object is implied inheritance, but is explicit here for 
 # demonstration purposes
 # Traits are used for interfaces/method inheritance
-class HelloClass < Class impl Greeter
+class HelloClass : Class impl Greeter
     # This is the member block
 	# It declares the structure of the object
     members
-        String name
-        String $alias  # constant variable, locks after first assignment
+        name : String
+        $alias : String  # constant variable, locks after first assignment
         private
-		Int private_var
+		private_var : Int
 
 
     # This is a class variable. 
@@ -57,7 +57,7 @@ class HelloClass < Class impl Greeter
     # The splat character can be used as a
     # wildcard for all types, and is used
     # last when there are stricter matches
-    # For example Int > Numeric > *
+    # For example Int : Numeric : *
     # (Numeric is a parent of Int)
     # This is only valid for argument type matching,
     # and not for return types.
@@ -110,7 +110,7 @@ method lambda_demo
     ["Hello"].map ->
         # This is a lambda declaration
         # The argument and return types are optional
-        lambda (word:String) -> String
+        fn (word:String) -> String
             word += " World."
 
     # This is shorthand for the same:
@@ -158,17 +158,42 @@ method more_pattern_matching(n:String) -> String
 # on the LHS. Cond, therefore, is much more flexible, and can do anything that match can, with
 # a bit more code.
 method gcd(a:Int, b:Int) -> Int
-    cond 
-        |a == b -> a
-        |a > b  -> gcd(a-b, b)
-        |*      -> gcd(b-a, a)
+    cond |a == b -> a
+         |a > b  -> gcd(a-b, b)
+         |*      -> gcd(b-a, a)
+
 
 macro our_when(condition, *body)
-    template
-        if ,condition
+    `if ,condition
             ,body
 
+
+let | h = 3
+    do | g = 0 -> g + 1
+       puts 5
+    until | g >= h
+
+
+macro ntimes(n, *body)
+    let | g = gensym()
+        | h = gensym()
+        `let | ,h = n
+             do | ,g = 0 -> ,g + 1
+                ,body
+             until | ,g >= ,h
+
+
+#=
+@return [Int] returns a local variable by value.
+#=
 method let_demo -> Int
-    let | x -> 1
-        | y -> x
-        return y
+    let | x = 1
+        | y = x
+        return y  # This would return 1
+
+method do_demo -> None
+    do  | x = 1 -> 1 + x
+        | y = x -> 3 * y
+        puts x
+        puts y
+
