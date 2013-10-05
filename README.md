@@ -28,7 +28,6 @@ fn main
     let | nums = [1, 2]
         | noms = ["Chad", "Nick", "Kristen", "Steve"]
         | odds = nums.map(|x| x * 2 - 1)
-
         odds.each ~> |num|
             puts("{:s} says hello from a new thread!", noms[num])
 ```
