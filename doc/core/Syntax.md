@@ -30,11 +30,27 @@ method pipelined -> None
 ```
 The arrow is optional, but recommended.
 
+The arrow also indicates a lazily evaluated statement:
+```brick
+let | x = (1..100).random
+    | y -> x.sort
+    y
+```
+In this, the x is immediately bound to a random array of `Int`s, but the y is not evaluated until we access it the first time. In addition, whenever we access y, `x.sort` will be called.  
+Any variable can have both a value _and_ a block associated with it at any time. This allows for very neat constructs, such as auto-incrementing systems, and C-like iterators.
+
+```brick
+let | !x = 0
+         -> !x +! 1
+    | y = (1..100).to_a
+    while !x <= y.size
+        puts y[!x]
+```
 ##~> (The Curvy Arrow)
 The curvy arrow is used to denote parallel execution.  
 It is read as 'does parallel'.  
 
-If we were to change the previous example, we can use a curvy arrow instead, to indicate that we want the lambda to be executed in parallel.
+If we were to change one of the previous examples, we can use a curvy arrow instead, to indicate that we want the lambda to be executed in parallel.
 ```ruby
 method parallel -> None
 	['Sam', 'Dave', 'John'].each ~> |name| puts name

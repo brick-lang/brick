@@ -19,7 +19,7 @@ fn hello_world
 
 - destructive functions are suffixed with the exclamation mark. For example `let` creates a new execution context, while `let!` adds to the current execution context.
 
-- mutable variables are prefixed with a exclamation mark, unlike C/ALGOL languages, where this means 'not'. (See Operators for more information). This is a compiler requirement, and the frontend will yell/fail at you if you modify an immutable variable.
+- mutable variables are prefixed with a exclamation mark, unlike C/ALGOL languages, where this means 'not'. (See Operators for more information). This is a compiler requirement, and the frontend will yell/fail at you if you modify an immutable variable. Mutable variables are passed _by reference_  so that we can modify them, while all other objects are passed by value, unless explicitly stated.
 
 ```brick
 let! !a = 2
