@@ -7,14 +7,16 @@ Naming conventions are _very_ important in Brick. The compiler uses them to figu
 For example:
 
 - variables and function names are lowercase and use underscores (snake_cased): 
+
 ```brick
-let x = this_is_a_variable
+let! x = this_is_a_variable
 
 fn hello_world
     puts "Hello, World!"
 ```
 
 -  types are CamelCased, except for type variables, which follow the convention for variables
+
 ```brick
 let! x:UInt64 = 23
 
