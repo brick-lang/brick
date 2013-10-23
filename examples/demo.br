@@ -1,0 +1,199 @@
+# This is a comment
+#=
+  This is a block comment
+    Block comments can be indented and not lose formatting
+#=
+
+# The trait keyword is used to declare a new trait.
+# Only method signatures are allowed in the block.
+trait Greeter : Trait
+    greet(name:String) -> Bool
+
+
+# Object is implied inheritance, but is explicit here for 
+# demonstration purposes
+# Traits are used for interfaces/method inheritance
+class HelloClass : Class impl Greeter
+    # This is the member block
+    # It declares the structure of the object
+    members
+        name : String
+        $alias : String  # constant variable, locks after first assignment
+        private
+        private_var : Int
+        
+
+
+
+    # This is a class variable. 
+    # It is a property of the _class_, not the instances.
+    # Implicit getters are available from anywhere, while instances
+    # of the class can assign to it
+    last_name = "Johnson" 
+
+    
+    # all `init` functions have an implied
+    # return type of self.class() (here, HelloClass)
+    method init(name:String) -> HelloClass
+        !self.name =! "" # this assigns to the 'name' slot defined in the members block
+        return self
+
+    # This is a method declaration
+    # Both the argument and return types
+    # are optional
+    # The last line of a method is used as the return value
+    # If the stated type and the return type are different,
+    # we attempt to automatically coerce the return value to
+    # the stated type
+    method hello(name:String) -> None
+        # This is one way of doing string interpolation
+        puts("Hello %s" % name)
+
+    # By redefining a method with different
+    # argument types, we can change the functionality
+    # depending on the arguments passed (like Java)
+    method hello(num:Int) -> None
+        num.times ->
+            puts("Hello")
+
+    # The splat character can be used as a
+    # wildcard for all types, and is used
+    # last when there are stricter matches
+    # For example Int : Numeric : *
+    # (Numeric is a parent of Int)
+    # This is only valid for argument type matching,
+    # and not for return types.
+    method hello(name:*)
+        puts("Hello %s" % name.to_s)
+
+    # This is a multi-method
+    # All the code in the block gets executed __before__
+    # the corresponding method
+    # Note that the parens following a method definition
+    # are optional if there are no args.
+    method hello:before
+        puts("Saying hello")
+
+    # This is also a multi-method
+    # All the code in this block get executed __after__
+    # the corresponding method
+    method hello:after
+        puts("Done saying hello")
+
+    # The `private` and `public` keywords are used similar to Ruby to show
+    # methods to other objects:
+    private
+    method private_demo
+        puts("This is a private method")
+
+    method other_demo
+        puts("This is another private method")
+
+    public
+    method public_demo
+        puts("This method is public")
+
+
+    # Traits are implemented using either blocks inside the class
+    # definition
+    impl Greeter
+        method greet(name:String)
+            # This is another way of doing string interpolation
+            puts("Hello, {:s}", name)
+
+
+# OR by fully specifiying the scope of the trait:
+impl HelloClass::Greeter
+    method greet(name:String)
+        # This is another way of doing string interpolation
+        puts("Hello, {:s}", name)
+
+fn lambda_demo
+    ["Hello"].collect ->
+        # This is a lambda declaration
+        # The argument and return types are optional
+        fn (word:String) -> String
+            word += " World."
+
+    # This is shorthand for the same:
+    ["Hello"].collect -> |word:String|
+        word += " World."
+
+fn concurrent_oepration
+    # When operating on data structures that
+    # are able to be spliced, we can do operations
+    # concurrently using the '~>' instead '->'
+    ['Sam', 'Dave', 'John'].each ~> |name|
+        put name
+
+    # The output order is no longer deterministic,
+    # and might be Dave, Sam, John, or any combination
+    # possible.
+
+# Similar to Erlang, match cases can be declared in the function header
+# Matches are done in order of definition, in decreasing order of
+# generality.
+# In the case of constant returns, the return type can be replaced with
+# the value.
+fn fib(0:Int) -> 0
+fn fib(1:Int) -> 1
+fn fib(num:Int) -> Int
+    fib(num-1) + fib(num-2)
+
+# This is simply syntax sugar for match patterns:
+fn fib(num:Int) -> Int
+    match num
+        | 0 -> 0
+        | 1 -> 0
+        | * -> fib(num-1) + fib(num-2)
+
+fn more_pattern_matching(n:String) -> String
+    match n
+        | '0'     -> put "Zero"
+        | /[1-9]/ -> put "One through Nine"
+        | *       -> put "Something else"
+
+# This is an example of the 'cond' keyword.
+# You may notice it looks very similar to how the 'match' keyword works.
+# This is intentional. Conditional matching is very powerful feature from LISP.
+# At a basic level, match is a cond statement, with lexical bindings that allow one variable
+# on the LHS. Cond, therefore, is much more flexible, and can do anything that match can, with
+# a bit more code.
+fn gcd(a:Int, b:Int) -> Int
+    cond | a == b -> a
+         | a > b  -> gcd(a - b, b)
+         | *      -> gcd(b - a, a)
+
+macro our_when(condition, *body)
+    `if ,condition
+        ,body
+
+
+let | h = 3
+    do | g = 0 -> g + 1
+       puts 5
+    until | g >= h
+
+
+macro ntimes(n, *body)
+    let | g = gensym()
+        | h = gensym()
+        `let | ,h = n
+             do | ,g = 0 -> ,g + 1
+                ,body
+             until | ,g >= ,h
+
+
+#=
+@return [Int] returns a local variable by value.
+#=
+fn let_demo -> Int
+    let | x = 1 -> x +! 1
+        | y = x
+        return y  # This would return 1
+
+fn do_demo -> None
+    do  | x = 1 -> 1 + x
+        | y = x -> 3 * y
+        puts x
+        puts y
