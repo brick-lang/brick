@@ -19,7 +19,7 @@ Here's a quick list of features:
 Here's the obligitory Hello World:
 ```brick
 fn main
-    puts "Hello, World!"
+    puts("Hello, World!")
 ```
 
 and something a bit more complex (humbly borrowed from the [Rust demo](http://www.rust-lang.org/)):
@@ -29,7 +29,7 @@ fn main
         | noms = ["Chad", "Nick", "Kristen", "Steve"]
         | odds = nums.map(|x| x * 2 - 1)
         odds.each ~> |num|
-            puts("{:s} says hello from a new thread!", noms[num])
+            puts("%s says hello from a new thread!", noms[num])
 ```
 
 Interested?
