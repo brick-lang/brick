@@ -1,32 +1,16 @@
-Memory management in Brick adopts a similar system to Obj-C and D. All of the core libraries, features, and sub-strata use manual memory management. However, it is highly recommended that you use some sort of automatic memory management system, whether it be ARC (Automatic Reference Counting), or RAII (Resource Acquisition Is Initialization)
+Memory in Brick is automatically managed. This can be done with either Garbage Collection or Automatic Reference Counting, depending on the implementation.
 
-## Manual Memory Management
-Manual memory management is similar to Obj-C and C++. To create a new instance of an object on the heap, we do
+# Object Creation
 ```ruby
-o = MyClass.new
+let! o = MyClass()
 ```
-or
+The default constructor is built in to every class:
 ```ruby
-o = MyClass()
+method MyClass()
+    return self  # explicit return for clarity
 ```
-the `new` method is built-in to every class, and is an alias to the `init` and `alloc` methods, which are also built-ins. Literally:
-```ruby
-method self.new
-    return self.alloc.init  # explicit return for clarity
-```
+This method also increments the reference count of the object to 1.
 
-To remove this object from the heap, we do
-```ruby
-o.destroy
-```
-The `destroy` method is synonymous to `release`
-###`alloc` and `init`
-The `alloc` and `init` methods allow for low-level control of an object's instantiation.
+###Object Destruction
 
-`alloc`: Allocates a dedicated memory space on the heap that corresponds to the size of the class' `struct`  
-`init`: Initializes the memory space. This ensures there is no garbage data in the allocated area. This method also increments the reference counter on the object to 1.
-
-###`release` and `dealloc`
-
-`release`: Decrements the reference counter on an object, calls `dealloc` if the reference counter has reached 0  
-`dealloc`: Deallocates the object's data structure (calls `release` on all slots). Unless you are using ARC for your object, you should call `self.superclass.dealloc` or simply `super.dealloc` at the end of your `dealloc` definition, as you need to deallocate the inherited structure slots.
+The reference counter is incremented when an object enters a new scope, and decremented when the object goes out of scope. A deallocation is performed if the reference counter has reached 0
