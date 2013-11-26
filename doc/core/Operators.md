@@ -11,6 +11,7 @@ Equivalent to calling `o.bnot`
 
 ##Binary Operators
 ###Logical Operators
+Note that logical operators are doubles.
 ####`or`, `||`
 Syntax sugar for `.or`
 
@@ -44,23 +45,24 @@ The divide-bang operator is syntax sugar for the `.divide!` method in a class. I
 
 
 ###Bitwise Operators
-####`|`
+Notice that bitwise operators are triplets. This is done to ease parsing and provide common syntax.
+####`|||`
 Syntax sugar for the `.bor` method.
 
-####`&`
+####`&&&`
 Syntax sugar for the `.band` method
 
-####`^`
+####`^^^`
 Syntax sugar for the `.bxor` method
 
-####`<<`
+####`<<<`
 The shift-left operator is syntax sugar for the `.shiftl` method in a class. It performs a bitshift of one degree to the left (with no args), or a bitshift of n degrees (with argument), and returns the new resultant object.
 
-####`>>`
+####`>>>`
 The shift-right operator is syntax sugar for the `.shiftr` method in a class. It performs a bitshift of one degree to the right (with no args), or a bitshift of n degrees (with argument), and returns the new resultant object.
 
-####`<<!`
+####`<<<!`
 Syntax sugar for the `.shiftl!` method. Identical to shift-left, except destructive.
 
-####`>>!`
+####`>>>!`
 Syntax sugar for the `.shiftr!` method. Identical to shift-right, except destructive
