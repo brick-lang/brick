@@ -1,41 +1,41 @@
 #=
     A super-simple IRC bot, to experiment with Brick
 #=
-import Net.Socket.TCP
+import Net::Socket::TCP
 
 let | server = "irc.freenode.org"
     | port = 6667
     | nick = "Brick"
     | channel = "#brick_bot"
     | commands = {
-        "!quit": -> |sock:Socket, _:Array<String>| {
+        "!quit": |sock:Socket, _:Array<String>| {
             sock.write("QUIT :Exiting")
             sock.destroy!
             exit
         }
-        "!id" -> |sock:Socket, words:Array<String>| {
+        "!id" |sock:Socket, words:Array<String>| {
             sock.write("PRIVMSG "+channel+" :"+words.implode(" "))
         }
     }
     
 fn listener(sock:Socket, s:String)
-    if s.substring(0,6)=="PING :" ->
+    if s.substring(0,6)=="PING :" 
         sock.write("PONG :"+s.substring(6,s.length))
-    else ->
+    else 
         let | p = s.find(":")
             | cs = s.substring(p, s.length)
             | exp = cs.explode(" ")
-        if exp[0] in commands ->
-            puts(exp[0]+"> "+exp.drop(1).implode(" "))
-            commands.get(exp[0])(sock, exp.drop(1))
-        else ->
-            puts("> "+cs)
+            if exp[0] in commands 
+                puts(exp[0]+"> "+exp.drop(1).implode(" "))
+                commands.get(exp[0])(sock, exp.drop(1))
+            else 
+                puts("> "+cs)
     
 fn main
     let sock = TCP(server, port)
-    if not sock.success? ->
+    if not sock.success? 
         puts("Failed to connect to server")
-    else ->
+    else 
         sock.write("NICK "+nick)
         sock.write("USER "+nick+" 0 * :"+nick+" bot")
         sock.write("JOIN "+channel)
