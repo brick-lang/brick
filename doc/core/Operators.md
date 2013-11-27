@@ -18,6 +18,10 @@ Syntax sugar for `.or`
 ####`and`, `&&`
 Syntax sugar for `.and`
 
+####`xor`, `^^`
+Syntax sugar for `.xor`
+
+
 ###Arithmetic Operators
 ####`+`
 The plus operator is syntax sugar for the `.add` method in a class. It performs either addition or concatenation, and returns a new resultant object.
