@@ -3,20 +3,20 @@
 #=
 import Net::Socket::TCP
 
-let | server = "irc.freenode.org"
-    | port = 6667
-    | nick = "Brick"
-    | channel = "#brick_bot"
-    | commands = {
-        "!quit": |sock:Socket, _:Array<String>| {
-            sock.write("QUIT :Exiting")
-            sock.destroy!
-            exit
-        }
-        "!id" |sock:Socket, words:Array<String>| {
-            sock.write("PRIVMSG "+channel+" :"+words.implode(" "))
-        }
+let! server = "irc.freenode.org"
+let! port = 6667
+let! nick = "Brick"
+let! channel = "#brick_bot"
+let! commands = {
+    "!quit": |sock:Socket, _:Array<String>| {
+        sock.write("QUIT :Exiting")
+        sock.destroy!
+        exit
     }
+    "!id" |sock:Socket, words:Array<String>| {
+        sock.write("PRIVMSG "+channel+" :"+words.implode(" "))
+    }
+}
     
 fn listener(sock:Socket, s:String)
     if s.substring(0,6)=="PING :" 
