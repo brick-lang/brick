@@ -10,12 +10,6 @@ Returns the bitwise not (complement) of the expression (e.g. `bnot 1 #=> -2`)
 Equivalent to calling `o.bnot`
 
 ##Binary Operators
-###List Operators
-####`^`
-The caret represents an infix `cons` statement. This is provided for List destructuring
-in pattern matching. This is analogous to the `:` operator in Haskell, and the `::` operator in
-OCaml and SML. 
-
 ###Logical Operators
 Note that logical operators are doubles.
 ####`or`, `||`
@@ -23,9 +17,6 @@ Syntax sugar for `.or`
 
 ####`and`, `&&`
 Syntax sugar for `.and`
-
-####`xor`, `^^`
-Syntax sugar for `.xor`
 
 ###Arithmetic Operators
 ####`+`
