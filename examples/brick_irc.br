@@ -8,34 +8,35 @@ let | server = "irc.freenode.org"
     | nick = "Brick"
     | channel = "#brick_bot"
     | commands = {
-        "!quit": -> |sock:Socket, _:String[]| {
+        "!quit": -> |sock:Socket, _:Array<String>| {
             sock.write("QUIT :Exiting")
-            sock.destroy
+            sock.destroy!
+            exit
         }
-        "!id" -> |sock:Socket, words:String[]| {
+        "!id" -> |sock:Socket, words:Array<String>| {
             sock.write("PRIVMSG "+channel+" :"+words.implode(" "))
         }
     }
     
 fn listener(sock:Socket, s:String)
-    cond | s.substring(0,6)=="PING :" ->
-            sock.write("PONG :"+s.substring(6,s.length))
-         | * ->
-            let | p = s.find(":")
-                | cs = s.substring(p, s.length)
-                | exp = cs.explode(" ")
-            cond | exp[0] in commands ->
-                    puts(exp[0]+"> "+exp.drop(1).implode(" "))
-                    commands[exp[0]](sock, exp.drop(1))
-                 | * ->
-                    puts("> "+cs)
+    if s.substring(0,6)=="PING :" ->
+        sock.write("PONG :"+s.substring(6,s.length))
+    else ->
+        let | p = s.find(":")
+            | cs = s.substring(p, s.length)
+            | exp = cs.explode(" ")
+        if exp[0] in commands ->
+            puts(exp[0]+"> "+exp.drop(1).implode(" "))
+            commands.get(exp[0])(sock, exp.drop(1))
+        else ->
+            puts("> "+cs)
     
 fn main
     let sock = TCP(server, port)
-    cond | not sock.success ->
-            puts("Failed to connect to server")
-         | * -> 
-            sock.write("NICK "+nick)
-            sock.write("USER "+nick+" 0 * :"+nick+" bot")
-            sock.write("JOIN "+channel)
-            sock.listen(listener)
+    if not sock.success? ->
+        puts("Failed to connect to server")
+    else ->
+        sock.write("NICK "+nick)
+        sock.write("USER "+nick+" 0 * :"+nick+" bot")
+        sock.write("JOIN "+channel)
+        sock.listen!(listener)
