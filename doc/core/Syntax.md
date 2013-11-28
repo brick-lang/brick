@@ -12,13 +12,13 @@ The stabby arrow is read as 'yields' or 'does'.
 Since Brick is a inferred-type language, compilation and/or runtime can be dramatically sped up if we use constrained types that match the host architecture.  
 ```ruby
 method add(num:Int) -> Int
-    ret self + num
+    return self + num
 ```
 This method _will always_ return an `Int`. Knowing that, we can make further optimizations on functions that call this method.  
 However if we were to do
 ```ruby
-method add(num:*) # This is equivalent to add(num)
-    ret self + num
+method add(num:_) # This is equivalent to add(num)
+    return self + num
 ```
 The return type will always degrade to `Addable`, since we could end up as either a `String`, an `Int`, or some other class if we overloaded the `+` operator with the `Addable` trait. (Operator traits' functions always have a return type of that trait.)
 
@@ -26,14 +26,14 @@ The return type will always degrade to `Addable`, since we could end up as eithe
 The stabby arrow also indicates execution of a block. With the stabby arrow, this execution is blocking and pipelined.
 ```ruby
 method pipelined -> None
-    ['Sam', 'Dave', 'John'].each -> |name| puts name
+    ['Sam', 'Dave', 'John'].each -> |name| puts(name)
 ```
 The arrow is optional, but recommended.
 
 The arrow also indicates a lazily evaluated statement:
 ```brick
 let | x = (1..100).random
-    | y -> x.sort
+    | y -> x.sort()
     y
 ```
 In this, the x is immediately bound to a random array of `Int`s, but the y is not evaluated until we access it the first time. In addition, whenever we access y, `x.sort` will be called.  
@@ -42,27 +42,22 @@ Any variable can have both a value _and_ a block associated with it at any time.
 ```brick
 let | !x = 0
          -> !x +! 1
-    | y = (1..100).to_a
+    | y = 1.upto(100).as_array()
     while !x <= y.size
-        puts y[!x]
+        puts(y[!x])
 ```
 ##~> (The Curvy Arrow)
-The curvy arrow is used to denote parallel execution.  
-It is read as 'does parallel'.  
+The curvy arrow is used to denote concurrent execution.  
+It is read as 'does threaded' or 'does parallel'.  
 
-If we were to change one of the previous examples, we can use a curvy arrow instead, to indicate that we want the lambda to be executed in parallel.
+If we were to change one of the previous examples, we can use a curvy arrow instead, to indicate that we want each call of the lambda to be executed in a new thread.
+
 ```ruby
-method parallel -> None
-	['Sam', 'Dave', 'John'].each ~> |name| puts name
+method threaded -> None
+    ['Sam', 'Dave', 'John'].each ~> |name| puts(name)
 ```
 The output of this function is no longer deterministic, and varies upon execution factors.
 
-##=> (The Fat Arrow)
-The fat arrow is read as 'maps to'.
-So far this syntax is only used in hash maps, similar to Ruby.
-```ruby
-{ '1' => 2, :five => '4' }
-```
 
 ##Comments
 Comments are denoted by the '#' character. Single-line comments are a '#' followed by a space, with the rest of the line being devoted to the comment
@@ -75,7 +70,7 @@ Classes are denoted by the `class` keyword. This indicates the start of a line w
 Class names are camel-cased, with the first letter being uppercase.
 
 A class line typically follows the format:  
-`class NewClass < MyClass impl Greeter`  
+`class NewClass : MyClass impl Greeter`  
 This means "declare a new class, named 'NewClass' that inherits data structures from 'MyClass', that implements the 'Greeter' trait."
 
 ##Modules
