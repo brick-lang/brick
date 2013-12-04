@@ -12,11 +12,11 @@ Traits are a way of describing common method inter-ops between classes, and (the
 ###Traits have inheritance
 A trait definition can inherit from another trait definition.
 For example:
-```ruby
+```brick
 trait Shape
     circle? -> Bool
 
-trait Polygon < Shape
+trait Polygon : Shape
     equilateral? -> Bool
     num_sides    -> Int
 ```
@@ -24,17 +24,17 @@ trait Polygon < Shape
 
 ###Traits are types
 When defining methods, traits are valid types to use for the function declaration.
-```ruby
->>> square = Rectangle.new(4,4,4,4)
+```ibr
+br> square = Rectangle.new(4,4,4,4)
 => #<Rectangle:0x00000000000000>
->>> square.is_a? Rectangle
-=> true # Obviously
->>> square.is_a? Polygon
+br> square.is_a?(Rectangle)
 => true
->>> square.is_a? Shape
+br> square.is_a?(Polygon)
+=> true
+br> square.is_a?(Shape)
 => true
 ```
-```ruby
+```brick
 method our_num_sides(polygon:Polygon) -> Int
-    polygon.num_sides
+    polygon.num_sides()
 ```

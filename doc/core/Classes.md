@@ -5,7 +5,7 @@ As mentioned in the syntax page, the `class` keyword starts a class definition b
 All classes are valid types.
 
 ## The class system
-Classes in Brick are not terribly similar to Java, Obj-C, or any other language that is strict O-O. __Methods do not get inherited between classes, but between common traits of the class hierarchy__
+Classes in Brick are not terribly similar to Java, Obj-C, or any other language that is strict O-O. __Methods do not get inherited between classes, but between common traits implemented in the class hierarchy__
 
 This is very important. Without method inheritance, classes now only serve the purpose of collecting related method declarations and data structures into one place.
 
