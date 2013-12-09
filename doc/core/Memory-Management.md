@@ -2,11 +2,12 @@ Memory in Brick is automatically managed. This is done with a generational garba
 
 # Object Creation
 ```brick
-let! o = MyClass()
+let | o = MyClass()
+	o  #=> #<MyClass:0x00000000000000>
 ```
 The default constructor is built in to every class:
 ```brick
-method MyClass()
+method MyClass() -> MyClass
     return self  # explicit return for clarity
 ```
 

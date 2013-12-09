@@ -1,7 +1,8 @@
 # This is a comment
+
 #=
-  This is a block comment
-    Block comments can be indented and not lose formatting
+#  This is a block comment
+#    Block comments can be indented and not lose formatting
 #=
 
 # The trait keyword is used to declare a new trait.

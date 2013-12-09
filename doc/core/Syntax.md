@@ -5,29 +5,31 @@ __Brick__ is a language designed to be read. Almost every sigil translates direc
 
 
 #Arrows
-Arrows play a large part of Brick. They indicate execution style and typing.
+Arrows play a large part of Brick. They indicate execution style and return types.
 
 ##-> (The Stabby Arrow)
-The stabby arrow is used for a variety of things, the most important of which is type declarations and signatures.
+The stabby arrow is used for a variety of things, the most important of which is return type declarations and signatures.
 
 The stabby arrow is read as 'yields' or 'does'.  
 
 ####Type declarations
 Since Brick is a inferred-type language, compilation and/or runtime can be dramatically sped up if we use constrained types that match the host architecture.  
-```ruby
+
+```brick
 method add(num:Int) -> Int
     return self + num
 ```
 This method _will always_ return an `Int`. Knowing that, we can make further optimizations on functions that call this method.  
 However if we were to do
+
 ```brick
 method add(num:_) # This is equivalent to add(num)
     return self + num
 ```
 The return type will always degrade to `Addable`, since we could end up as either a `String`, an `Int`, or some other class if we overloaded the `+` operator with the `Addable` trait. (Operator traits' functions always have a return type of that trait.)
 
-####Blocks
-The stabby arrow also indicates execution of a block. With the stabby arrow, this execution is blocking and pipelined. Execution with this must be 'pure'. You may have heard of function purity before, if you've used Haskell. Our 'pure' is actually a bit different than Haskell's. In this context, purity means that we are not editing our environment (variables or object state of the current execution), specifically in a way that changes execution. `puts` is not considered impure, since it does not change how the program executes.
+####Lambdas
+The stabby arrow also indicates execution of a lambda. With the stabby arrow, this execution is blocking and pipelined. Execution with this should be mostly 'pure', or having no effect on things outside of the lambda.
 
 ```brick
 method pipelined -> None
@@ -37,25 +39,26 @@ The arrow is optional, but recommended as it is verbose.
 
 ##~> (The Curvy Arrow)
 The curvy arrow is used to denote synchronized execution à la Clojure's `dosync`. 
-It is read as 'does synchronized'.
+It is read as 'does synchronized' or 'does atomically'.
 
-So how do we do impure execution? How do we introduce imperative programming in a language that only seems to support 'pure'-ish functions? Monads are one option. However many people have trouble understanding how monads function, and Brick aims to be easy to understand.
+We use a `ref` system, similar to OCaml and Clojure, though closer to Clojure. Refs can be thought of as pointers, but they're really more like what they sound like: references.
 
-Instead, we clump impure functionality into a 'synchronized' block. If you've ever used Clojure, you already know how this works. Synchronization ensures that side effects don't interfere with thread execution. By versioning the object's state, and then moving between versions, we eliminite race conditions.
+We clump impure (mutating) functionality into a 'synchronized' block. If you've ever used Clojure, you already know how this works. Synchronization ensures that side effects don't interfere with thread execution. By versioning the object's state, and then moving between versions, we eliminite race conditions.
 
 
 ##=> (The Fat Arrow)
-The fat arrow is used to denote _pure_ concurrent execution.  
-It is read as 'does purely threaded' or 'does purely parallel'.  
+The fat arrow is used to denote concurrent execution.  
+It is read as 'does threaded' or 'does parallel'.  
 
 If we were to change one of the previous examples, we can use a fat arrow instead, to indicate that we want each call of the lambda to be executed in a new thread.
 
-```ruby
+```brick
 method threaded -> None
     ['Sam', 'Dave', 'John'].each => |name| puts(name)
 ```
 The output of this function is no longer deterministic, and varies upon execution factors.
 
+__WARNING__ be careful of introducing impurity and object modification into concurrently executed lambdas. If you need to change state in a parallel lambda, prefix the line with, or create a block with, a `~>`.
 
 ##Let forms
 Let forms allow you to create a new execution context. They bind values (among other things) to variables.
@@ -107,7 +110,7 @@ let | x = 5
 </tr>
 </table>
 ####Strict Assignment
-As seen above, an equals sign `=` between the symbol and the value indicate an assignment. In Brick, this assignment is eager, and so `x` is immediately `5`. You can assign various things to variables, including objects, functions, classes, symbols, etc.
+As seen above, an equals sign `=` between the symbol and the value indicates an assignment. In Brick, this assignment is eager, and so `x` is immediately `5`. You can assign various things to variables, including objects, functions, classes, symbols, etc.
 
 ```brick
 let | x = 5
@@ -142,7 +145,7 @@ Any variable can have both a value _and_ a function associated with it at any ti
 
 ```brick
 let | !x = 0
-         ~> !x.add(1)
+         ~> x.add!(1)
     | y = 1.upto(100).as_array()
     while !x <= y.size
         puts(y[!x])
@@ -160,10 +163,10 @@ let | f <- Random.rand(10)
 ##Comments
 Comments are denoted by the '#' character. Single-line comments are a '#' followed by a space, with the rest of the line being devoted to the comment
 
-Multi-line comments are done with '#=' for both the start and end blocks, and are justified to the left side of the '#'. This means that formatting and indentation performed in a block comment persists to the generated documentation. Inside of a block comment, we parse as if GitHub-flavored Markdown, which allows for succinct examples and linking.
+Multi-line comments are done with '#=' for both the start and end tags, and are justified to the left side of the '#'. This means that formatting and indentation performed in a block comment persists to the generated documentation. Inside of a block comment, we parse as if GitHub-flavored Markdown, which allows for succinct examples and linking.
 
 ##Classes
-Classes are denoted by the `class` keyword. This indicates the start of a line which states the class's name, inheritance hierarchy, and implemented traits.
+Classes are denoted by the `class` keyword. This indicates the start of a line which states the class's name, and optionally, the class' parent, and implemented traits.
 
 Class names are camel-cased, with the first letter being uppercase.
 
