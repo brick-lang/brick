@@ -34,4 +34,4 @@ fn main
 
 Interested?
 
-Read the [docs](https://github.com/brick-lang/brick-lang/doc/core/)
+Read the [docs](https://github.com/brick-lang/brick-lang/tree/master/doc/core)
