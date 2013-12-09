@@ -34,4 +34,4 @@ fn main
 
 Interested?
 
-Read the [wiki](https://github.com/toroidal-code/brick-lang/wiki/_pages)
+Read the [docs](https://github.com/brick-lang/brick-lang/doc/core/)
