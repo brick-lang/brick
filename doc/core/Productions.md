@@ -34,7 +34,7 @@ expr : /* More things go here */
      | lambda
      ;
 
-term_expr : expr [terminus expr]* terminus ;
+term_expr : expr [terminus expr]* {terminus} ;
 
 terminus : '\n' | ';' ;
 
