@@ -1,0 +1,28 @@
+datatype BTree<t>
+    | BTreeNode(data:t, left:BTreeNode<t>, right:BTreeNode<t>)
+    | None
+
+# The BTreeNode... declaration expands to:
+
+class BTreeNode<t>
+    members
+        data  : t
+        left  : BTreeNode<t>
+        right : BTreeNode<t>
+
+    method BTreeNode(data:t, left:BTreeNode<t>, right:BTreeNode<t>)
+        this.data = data
+        this.left = left
+        this.right = right
+
+class Point<a>(x:a, y:a) # This expands to 
+
+class Point<a>
+    members
+        x : a
+        y : a
+
+    method Point(x:a, y:a) -> Point
+        this.x = x
+        this.y = y
+    
