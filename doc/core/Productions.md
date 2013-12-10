@@ -8,14 +8,15 @@ let_tail : let_tail assignment
          ;
 assignment : '|' var '=' expr pnt_or_e
            | '|' var '<-' expr pnt_or_e
-           | '|' var pnt_assgn
+           | '|' var pnt_exec
            ;
 
-pnt_assgn : '~>' expr
-          | '->' expr
-          ;
+pnt_exec : '~>' expr
+         | '->' expr
+         | '=>' expr
+         ;
 
-pnt_or_e : pnt_assgn | ;
+pnt_or_e : pnt_exec | ;
 
 var : '!' ID type_annot
     | ID type_annot
