@@ -4,36 +4,56 @@
 let : 'let' assignment INDENT let_tail expr UNDENT ;
 
 let_tail : let_tail assignment
-         | assignment
          | /* empty */
          ;
-
-assignment : bar_var aug_assgn
+assignment : '|' var '=' expr pnt_or_e
+           | '|' var '<-' expr pnt_or_e
+           | '|' var pnt_assgn
            ;
 
-aug_assgn : aug_or_e '=' exp
-          | aug_or_e '->' exp
-          | aug_or_e '<-' exp
+pnt_assgn : '~>' expr
+          | '->' expr
           ;
 
-aug_or_e : aug_assgn
-         |
-         ;
+pnt_or_e : pnt_assgn | ;
 
-bar_var : '|' var ;
-
-var : '!' ID
-    | ID
+var : '!' ID type_annot
+    | ID type_annot
     ;
+
+type_annot : ':' TYPE | ;
 
 ```
 
 ##Expr
 ```bnf
-expr : expr terminus
-	 | /* More things go here */
-	 | NUMBER
+expr : /* More things go here */
+     | NUMBER
+     | IDENT
+     | lambda
      ;
 
-terminus : 
+term_expr : expr [terminus expr]* terminus ;
+
+terminus : '\n' | ';' ;
+
+block : INDENT term_expr UNDENT
+      | '{' term_expr '}'
+      ;
+```
+
+##Lambda
+```bnf
+lambda : var_bind block
+       | var_bind expr
+       ;
+
+var_bind : '|' args '|'
+         |
+         ;
+
+args : args ',' var
+     | var
+     | /* None */
+     ;
 ```
