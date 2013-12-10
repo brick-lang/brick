@@ -72,40 +72,40 @@ Unlike most imperitive languages, in Brick you cannot assign values to variables
 <th>Brick</th>
 <tr>
 <td>
-```lisp
+<pre lang="lisp" style="margin: 0px;">
 (let ((x 5)
       (y 2))
      (+ x y))
-```
+</pre>
 </td>
 <td>
-```ocaml
+<pre lang="ocaml" style="margin: 0px;">
 let x = 5
 and y = 2 in
     x + y ;;
-```
+</pre>
 </td>
 <td>
-```sml
+<pre lang="sml" style="margin: 0px;">
 let val x = 5 
     val y = 2 
 in  x + y 
 end
-```
+</pre>
 </td>
 <td>
-```haskell
+<pre lang="haskell" style="margin: 0px;">
 let x = 5
     y = 2
 in  x + y
-```
+</pre>
 </td>
 <td>
-```brick
+<pre lang="brick" style="margin: 0px;">
 let | x = 5
     | y = 2
     x + y
-```
+</pre>
 </td>
 </tr>
 </table>
