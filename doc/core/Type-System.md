@@ -9,7 +9,7 @@ Methods are not generic by default, like they are in the ML-family of languages.
 
 It is important to note that when a generic function and a 'blank-type' function have the same arity in scope, the generic function will always be used. For example:
 ```ruby
-method add(x:T, y:T) -> T
+method add(x:t, y:t) -> t
     x + y
 
 method add(x, y)  # Equivalent to add(x:_, y:_) -> Addable
@@ -21,8 +21,8 @@ calling `add(1, 2)` will always use the first definition, since it is the more c
 Both functions and operators are able to be overloaded.  
 For example:
 
-```ruby
-class Person
+```brick
+class Person()
     method speak(p:Person) -> None
         puts("We engage in a meaningful conversation with the other person.")
     
@@ -42,7 +42,7 @@ class Person
         args.each -> |a|
            speak(a)
 
-class Japanese : Person
+class Japanese() : Person
     # Nothing to see here, move along
 
 def main 

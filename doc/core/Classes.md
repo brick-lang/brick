@@ -1,11 +1,11 @@
 Brick is designed to be an odd amalgam of Object-Oriented concepts, coupled with fairly new ideas in the design of languages.
 
-As mentioned in the syntax page, the `class` keyword starts a class definition block. This includes information about direct inheritance of data structures, and the traits the object implements.
+As mentioned in the syntax page, the `class` keyword starts a class definition block. This includes information about the object's construction, direct inheritance of data structures, and the traits the object implements.
 
 All classes are valid types.
 
 
-###Diamond problem OR the Deadly Diamond of Death
+###The Deadly Diamond of Death
 Brick solves this problem similar to Scala. Brick allows only single inheritance between classes. However, you can implement multiple traits. Traits that share method names shadow previous traits, so the last trait in the trait listing will be what is used.
 
 ## The class system
@@ -15,6 +15,42 @@ This is very important. Without method inheritance, classes now only serve the p
 
 Instead, we rely upon the _trait_ system for a common interface and method inheritance between related classes. All altered methods inside traits implemented by a parent class are to be implemented in the child class, else we fall back to using the parent's implementation of the method in that trait.  
 
-For example, if I am building a GADDAG structure, the data structure and certain methods inherit directly from a Trie class. In this case, I would define a common trait `Tree`, with methods such as `traverse`,  `find`, `add`, and `contains?`. Since a GADDAG only needs one function changed between the two classes (the `add` method), we would only write that one function in the `impl Tree` block. The rest of the methods required by the `Tree` trait would be found in the parent class, and those would be used. This is called _partial trait inheritance_ and is only valid when any parent of our class has implemented the same trait. Otherwise, __All__ methods declared by a trait must implemented, as we will not be able to traverse the hierarchy to find a class that has already implemented them. (Don't worry, the warning system will be built into the linter. We'll remind you.)
+Traits that your parent implements but you don't explicitly state for implementation in your class are not immediately available. However, if you want to automatically use all your parent's traits, simply include the parent class' name in the `impl` list.
 
-Traits that your parent implements but you don't explicitly state for implementation in your class are prepended to the traits list of the class.
+##Examples
+Let's look at a simple class:
+```brick
+class Point(x:Int, y:Int)
+    pass
+```
+From this declaration we can tell a number of things: 
+- The constructor takes two parameters, both Ints.
+- We have two instance variables: `x` and `y` to represent a point on a 2-D plane. 
+- We have no parent classes
+- We have no traits that we're implementing (yet)
+
+In order to make an instance, we'd do: 
+```brick
+glaze> x = Point(5, 2)
+#=> x : Point(5, 2)
+```
+
+But this isn't terribly helpful, as we now have a Point object floating around, with nothing we can do with it. Let's change that:
+```brick
+class Point(x:Int, y:Int) impl ToStr
+    impl ToStr
+        method to_str
+            "(:{i}, :{i})".fmt(self.x, self.y)
+```
+We're now implementing the `ToStr` trait, which is a simple trait that indicates serialization to a string.
+
+Now we can print the object!
+```brick
+glaze> x = Point(5, 2)
+#=> x : Point(5, 2)
+glaze> x.to_str()
+#=> "(5, 2)" : String
+glaze> puts(x.to_string())
+(5, 2)
+#=> () : Unit
+```
