@@ -54,3 +54,35 @@ glaze> puts(x.to_string())
 (5, 2)
 #=> () : Unit
 ```
+
+Lets add some more functionality. We'll want to be able to move the point, and perhaps to rotate it. 
+
+```brick
+class Point(x:Int, y:Int) impl ToStr
+	method move(dx, dy)
+	    Point(self.x + dx, self.y + dy)
+
+	method rotate
+	    Point(self.y, self.x)
+
+    impl ToStr
+        method to_str
+            "(:{i}, :{i})".fmt(self.x, self.y)
+```
+
+Now we can perform these operations
+```brick
+glaze> x = Point(5, 2)
+#=> x : Point(5, 2)
+glaze> x.move(2, 2)
+#=> #<Point> : Point(7, 4)
+glaze> x.rotate()
+#=> #<Point> : Point(2, 5)
+```
+
+Note that these operations are functional, and return new instances of the Point class, with the data we want. In order to mutate an object, we use the ref system, coupled with _mutators_, special functions that take functional ouput and ref-sets the incoming ref.
+
+```brick
+mutate move!(dx, dy)
+	self != !self.move(dx, dy)
+```
