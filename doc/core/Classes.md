@@ -59,11 +59,11 @@ Lets add some more functionality. We'll want to be able to move the point, and p
 
 ```brick
 class Point(x:Int, y:Int) impl ToStr
-	method move(dx, dy)
-	    Point(self.x + dx, self.y + dy)
+    method move(dx, dy)
+        Point(self.x + dx, self.y + dy)
 
-	method rotate
-	    Point(self.y, self.x)
+    method rotate
+        Point(self.y, self.x)
 
     impl ToStr
         method to_str
@@ -80,9 +80,24 @@ glaze> x.rotate()
 #=> #<Point> : Point(2, 5)
 ```
 
-Note that these operations are functional, and return new instances of the Point class, with the data we want. In order to mutate an object, we use the ref system, coupled with _mutators_, special functions that take functional ouput and ref-sets the incoming ref.
+Note that these operations are functional, and return new instances of the Point class, with the data we want. In order to mutate an object, we use the ref system, coupled with _mutators_, special functions that take functional ouput and ref-sets the incoming ref. Mutators have type `Ref<ThisClass> -> ...Params -> Ref<ThisClass>`
 
 ```brick
-mutate move!(dx, dy)
-	self != !self.move(dx, dy)
+mutator move!(dx, dy)
+    self != !self.move(dx, dy)
+```
+For ease of use, there is a `gen_mutator` macro that can automatically generate mutators for specific methods in your class
+
+```brick
+class Point(x:Int, y:Int) impl ToStr
+    method move(dx, dy)
+        Point(self.x + dx, self.y + dy)
+
+    method rotate
+        Point(self.y, self.x)
+
+    gen_mutator(move, rotate) # This creates the move! and rotate! mutators
+    impl ToStr
+        method to_str
+            "(:{i}, :{i})".fmt(self.x, self.y)
 ```

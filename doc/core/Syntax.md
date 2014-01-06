@@ -12,9 +12,7 @@ The stabby arrow is used for a variety of things, the most important of which is
 
 The stabby arrow is read as 'yields' or 'does'.  
 
-####Type declarations
-Since Brick is a inferred-type language, compilation and/or runtime can be dramatically sped up if we use constrained types that match the host architecture.  
-
+####Type declarations/restrictions
 ```brick
 method add(num:Int) -> Int
     return self + num
@@ -23,16 +21,16 @@ This method _will always_ return an `Int`. Knowing that, we can make further opt
 However if we were to do
 
 ```brick
-method add(num:_) # This is equivalent to add(num)
+method add(num)
     return self + num
 ```
-The return type will always degrade to `Addable`, since we could end up as either a `String`, an `Int`, or some other class if we overloaded the `+` operator with the `Addable` trait. (Operator traits' functions always have a return type of that trait.)
+The return type will always degrade to `Addable`, since we could end up as either a `String`, an `Int`, or some other class if we overloaded the `+` operator with the `Addable` trait.
 
 ####Lambdas
 The stabby arrow also indicates execution of a lambda. With the stabby arrow, this execution is blocking and pipelined. Execution with this should be mostly 'pure', or having no effect on things outside of the lambda.
 
 ```brick
-method pipelined -> None
+method pipelined -> Unit
     ['Sam', 'Dave', 'John'].each -> |name| puts(name)
 ```
 The arrow is optional, but recommended as it is verbose.
@@ -110,7 +108,7 @@ let | x = 5
 </tr>
 </table>
 ####Strict Assignment
-As seen above, an equals sign `=` between the symbol and the value indicates an assignment. In Brick, this assignment is eager, and so `x` is immediately `5`. You can assign various things to variables, including objects, functions, classes, symbols, etc.
+As seen above, an equals sign `=` between the symbol and the value indicates an assignment. In Brick, this assignment is eager, and so the right side is evaluated before the assignment actually occurs. You can assign various things to variables, including objects, functions, classes, symbols, etc.
 
 ```brick
 let | x = 5
@@ -121,7 +119,7 @@ let | x = 5
 Style Note: if an assigned lambda gets too large or unwieldy, consider breaking it into a closure.
 
 ####Call Assignment
-Inside a `let` form, a rightward (do-type) arrow indicates function call binding. You can think of it as a kind of lazy evaluation, but it's a bit different than what you may be used to. Instead of binding the value of the return from the function call to the variable when we need it, we are actually binding the variable to the _action_ of executing a lambda or function. The associated function need to be parameterless.
+Inside a `let` form, a rightward (do-type) arrow indicates function call binding. You can think of it as a kind of lazy evaluation, but it's a bit different than what you may be used to. Instead of binding the value of the return from the function call to the variable when we need it, we are actually binding the variable to the _action_ of executing a lambda or function. The associated function needs to have all parameters filled in.
 
 Here's a couple examples:
 ```brick
@@ -166,22 +164,22 @@ Comments are denoted by the '#' character. Single-line comments are a '#' follow
 Multi-line comments are done with '#=' for both the start and end tags, and are justified to the left side of the '#'. This means that formatting and indentation performed in a block comment persists to the generated documentation. Inside of a block comment, we parse as if GitHub-flavored Markdown, which allows for succinct examples and linking.
 
 ##Classes
-Classes are denoted by the `class` keyword. This indicates the start of a line which states the class's name, and optionally, the class' parent, and implemented traits.
+Classes are denoted by the `class` keyword. This indicates the start of a line which states the class's name and default constructor, and optionally, the class' parent, and implemented traits.
 
 Class names are camel-cased, with the first letter being uppercase.
 
 A class line typically follows the format:  
-`class NewClass : MyClass impl Greeter`  
-This means "declare a new class, named 'NewClass' that inherits data structures from 'MyClass', that implements the 'Greeter' trait."
+`class NewClass(constructor_args:SomeType) : ParentClass impl SomeTrait`  
+This means "declare a new class, whose default constructor takes these parameters, named 'NewClass' that inherits data structures from 'MyClass', that implements the 'Greeter' trait."
 
 ##Modules
-Modules are used for name-spacing. They collect related classes and methods into a single area. For example:
-```ruby
+Modules are used for name-spacing. They collect related classes and functions into a single area. For example:
+```brick
 module MyModule
     class MyClass
-    method my_method
+    fn my_fn
 ```
-`MyClass` and `my_method` are accessed using `MyModule::MyClass` and `MyModule::my_method`
+`MyClass` and `my_fn` are accessed using `MyModule::MyClass` and `MyModule::my_fn`
 
 Module names are camel-cased, with the first letter being uppercase. In this way, they are indistinguishable from Classes except that `MyModule.class? -> false` and `MyModule.module? -> true`
 
