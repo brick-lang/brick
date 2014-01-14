@@ -3,11 +3,11 @@
 #=
 import Net::Socket::TCP
 
-let! server = "irc.freenode.org"
-let! port = 6667
-let! nick = "Brick"
-let! channel = "#brick_bot"
-let! commands = {
+server = "irc.freenode.org"
+port = 6667
+nick = "Brick"
+channel = "#brick_bot"
+commands = {
     "!quit": |sock:Socket, _:Array<String>| {
         sock.write("QUIT :Exiting")
         sock.destroy!
@@ -32,11 +32,11 @@ fn listener(sock:Socket, s:String)
                 puts("> " + cs)
     
 fn main
-    let! sock = TCP(server, port)
-    if not sock.success? 
-        puts("Failed to connect to server")
-    else 
-        sock.write("NICK " + nick)
-        sock.write("USER " + nick + " 0 * :" + nick + " bot")
-        sock.write("JOIN " + channel)
-        sock.listen!(listener)
+    let | !sock = TCP(server, port)
+        if not sock.success? 
+            puts("Failed to connect to server")
+        else 
+            sock.write("NICK " + nick)
+            sock.write("USER " + nick + " 0 * :" + nick + " bot")
+            sock.write("JOIN " + channel)
+            sock.listen!(listener)
