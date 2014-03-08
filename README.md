@@ -53,6 +53,6 @@ Here's some areas we're working on right now:
   * [libuv](https://github.com/joyent/libuv): Cross-platform abstraction
   * [Rust](http://www.rust-lang.org/): The runtime itself
   * C: Glue between Rust, OCaml, and other pieces
-* The website, [brick-lang.org](brick-lang.org). Possible technologies include:
+* The website, [brick-lang.org](http;//brick-lang.org). Possible technologies include:
   * Node.js + Express
   * Ruby + Jekyll or Sinatra
