@@ -35,3 +35,24 @@ fn main
 Interested?
 
 Read the [docs](https://github.com/brick-lang/brick-lang/tree/master/doc/core)
+
+##Getting Involved
+So you want to help out. That's great!  
+Whether you're a Ruby developer, a Node.js hipster, or a C wizard, we can use your help.
+
+Here's some areas we're working on right now:  
+* The language definition (Kind of a big deal to get this ironed out) 
+* Writing the [reference compiler/interpreter](https://github.com/brick-lang/kiln). Technologies used include:
+    * [OCaml](http://ocaml.org/)
+    * OCamllex: The tokenizer
+    * [Menhir](http://gallium.inria.fr/~fpottier/menhir/): The program parser
+    * [Jane Street's Core](https://github.com/janestreet/core) library for OCaml
+    * [LLVM](http://llvm.org/docs/): The backend
+    * [Linenoise](https://github.com/antirez/linenoise): The REPL
+* Writing the runtime for the compiler. Technologies used include:
+  * [libuv](https://github.com/joyent/libuv): Cross-platform abstraction
+  * [Rust](http://www.rust-lang.org/): The runtime itself
+  * C: Glue between Rust, OCaml, and other pieces
+* The website, [brick-lang.org](http://brick-lang.org). Possible technologies include:
+  * Node.js + Express
+  * Ruby + Jekyll or Sinatra

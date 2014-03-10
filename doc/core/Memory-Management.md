@@ -1,4 +1,4 @@
-Memory in Brick is automatically managed. This is done with a generational garbage collector built-in to the runtime library.
+Memory in Brick is automatically managed. This is done with a generational garbage collector built into the runtime library.
 
 # Object Creation
 ```brick

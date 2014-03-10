@@ -7,34 +7,46 @@
 
 # The trait keyword is used to declare a new trait.
 # Only method signatures are allowed in the block.
+# Since traits are only used for method declarations, 
+# all traits have a type signature of `TraitName -> ...`
+# (The implicit first parameter is always the type of the trait)
 trait Greeter : Trait
     greet(name:String) -> Bool
 
 
 # Object is implied inheritance, but is explicit here for 
-# demonstration purposes
-class HelloClass : Object
-    # This is the member block
+# demonstration of the inheritance syntax
+#
+# Classes have a default constructor, which is also used 
+# for object deconstruction (pattern matching).
+class HelloClass(our_name : String) : Object impl ToString
+    # This is the members block
     # It declares the structure of the object
+    # Members are private by default. This can be modified
+    # by prefixing the accessibilty before the `members` keyword:
+    # (`public members`, `protected members`)
     members
-        name : String
-        $alias : String  # constant variable, locks after first assignment
-        private
-        private_var : Int
+        public # means that getters and setters are created
+        alias : String
         
+        protected # means that only getters are created
+        name : String = our_name
+
+        private # means that neither getters nor setters are created
+        private_var : Int
+
+        # access keywords can be restricted to a single variable
+        public hello : Int 
+        
+    # Do note, that you can create your own getters and setters and
+    # not use the access keywords in members
+
 
     # This is a class variable. 
     # It is a property of the _class_, not the instances.
-    # Implicit getters are available from anywhere, while instances
-    # of the class can assign to it
+    # By default, they are protected. This can be changed by prefix with
+    # an access keyword
     last_name = "Johnson" 
-
-    
-    # all `init` functions have an implied
-    # return type of self.class() (here, HelloClass)
-    method HelloClass(name:String) -> HelloClass
-        !self.name =! "" # this assigns to the 'name' slot defined in the members block
-        return self
 
     # This is a method declaration
     # Both the argument and return types
@@ -54,16 +66,6 @@ class HelloClass : Object
         num.times ->
             puts("Hello")
 
-    # The splat character can be used as a
-    # wildcard for all types, and is used
-    # last when there are stricter matches
-    # For example Int : Numeric : *
-    # (Numeric is a parent of Int)
-    # This is only valid for argument type matching,
-    # and not for return types.
-    method hello(name:_)
-        puts("Hello %s" % name.to_s)
-
     # This is a multi-method
     # All the code in the block gets executed __before__
     # the corresponding method
@@ -80,7 +82,7 @@ class HelloClass : Object
     method after_hello
         puts("Done saying hello")
 
-    # The `private` and `public` keywords are used similar to Ruby to show
+    # The `private` and `public` keywords are used to show
     # methods to other objects:
     private
     method private_demo
