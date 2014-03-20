@@ -40,9 +40,9 @@ Read the [docs](https://github.com/brick-lang/brick-lang/tree/master/doc/core)
 So you want to help out. That's great!  
 Whether you're a Ruby developer, a Node.js hipster, or a C wizard, we can use your help.
 
-Here's some areas we're working on right now:
-1. The language definition (Kind of a big deal to get this ironed out)
-2. Writing the [reference compiler/interpreter](https://github.com/brick-lang/kiln). Technologies used include:
+Here's some areas we're working on right now:  
+1. The language definition (Kind of a big deal to get this ironed out)  
+2. Writing the [reference compiler/interpreter](https://github.com/brick-lang/kiln). Technologies used include:  
   * [OCaml](http://ocaml.org/)
   * OCamllex: The tokenizer
   * [Menhir](http://gallium.inria.fr/~fpottier/menhir/): The program parser
@@ -53,6 +53,6 @@ Here's some areas we're working on right now:
   * C: Glue between Rust, OCaml, and other pieces
   * [libuv](https://github.com/joyent/libuv): Cross-platform abstraction
   * [Rust](http://www.rust-lang.org/): The runtime itself
-4. The website, [brick-lang.org](brick-lang.org). Possible technologies include:
+4. The website, [brick-lang.org](brick-lang.org). Possible technologies include:  
   * Node.js + Express
   * Ruby + Jekyll or Sinatra
