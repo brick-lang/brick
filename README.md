@@ -3,9 +3,9 @@
 __Brick__ is a modern, functional, object-oriented language, designed to have the expressiveness you've come to expect from languages like Ruby and Python, joined with the power of Common Lisp, Rust, and ML.
 
 
-Here's a quick list of features:
+Here's a quick list of features we are working on supporting:
 
-- Traditional (Java/Ruby) Classes
+- Classes for organization
 - Mixins
 - Type Inference/Reconstruction
 - Parametric Polymorphism
