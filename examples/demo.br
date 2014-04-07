@@ -66,6 +66,16 @@ class HelloClass(our_name : String) : Object impl ToString
         num.times ->
             puts("Hello")
 
+    # The splat character can be used as a
+    # wildcard for all types, and is used
+    # last when there are stricter matches
+    # For example Int : Numeric : *
+    # (Numeric is a parent of Int)
+    # This is only valid for argument type matching,
+    # and not for return types.
+    method hello(name:_)
+        puts("Hello %s" % name.to_s)
+
     # This is a multi-method
     # All the code in the block gets executed __before__
     # the corresponding method
