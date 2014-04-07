@@ -3,9 +3,9 @@
 __Brick__ is a modern, functional, object-oriented language, designed to have the expressiveness you've come to expect from languages like Ruby and Python, joined with the power of Common Lisp, Rust, and ML.
 
 
-Here's a quick list of features:
+Here's a quick list of features we are working on supporting:
 
-- Traditional (Java/Ruby) Classes
+- Classes for organization
 - Mixins
 - Type Inference/Reconstruction
 - Parametric Polymorphism
@@ -43,12 +43,12 @@ Whether you're a Ruby developer, a Node.js hipster, or a C wizard, we can use yo
 Here's some areas we're working on right now:  
 * The language definition (Kind of a big deal to get this ironed out) 
 * Writing the [reference compiler/interpreter](https://github.com/brick-lang/kiln). Technologies used include:
-    * [OCaml](http://ocaml.org/)
-    * OCamllex: The tokenizer
-    * [Menhir](http://gallium.inria.fr/~fpottier/menhir/): The program parser
-    * [Jane Street's Core](https://github.com/janestreet/core) library for OCaml
-    * [LLVM](http://llvm.org/docs/): The backend
-    * [Linenoise](https://github.com/antirez/linenoise): The REPL
+  * [OCaml](http://ocaml.org/)
+  * OCamllex: The tokenizer
+  * [Menhir](http://gallium.inria.fr/~fpottier/menhir/): The program parser
+  * [Jane Street's Core](https://github.com/janestreet/core) library for OCaml
+  * [LLVM](http://llvm.org/docs/): The backend
+  * [Linenoise](https://github.com/antirez/linenoise): The REPL
 * Writing the runtime for the compiler. Technologies used include:
   * [libuv](https://github.com/joyent/libuv): Cross-platform abstraction
   * [Rust](http://www.rust-lang.org/): The runtime itself
