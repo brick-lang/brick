@@ -31,12 +31,12 @@ The stabby arrow also indicates execution of a lambda. With the stabby arrow, th
 
 ```brick
 method pipelined -> Unit
-    ['Sam', 'Dave', 'John'].each -> |name| puts(name)
+    ['Sam', 'Dave', 'John'].each -> \name\ puts(name)
 ```
 The arrow is optional, but recommended as it is verbose.
 
 ##~> (The Curvy Arrow)
-The curvy arrow is used to denote synchronized execution à la Clojure's `dosync`. 
+The curvy arrow is used to denote synchronized execution à la Clojure's `dosync`.
 It is read as 'does synchronized' or 'does atomically'.
 
 We use a `ref` system, similar to OCaml and Clojure, though closer to Clojure. Refs can be thought of as pointers, but they're really more like what they sound like: references.
@@ -52,7 +52,7 @@ If we were to change one of the previous examples, we can use a fat arrow instea
 
 ```brick
 method threaded -> None
-    ['Sam', 'Dave', 'John'].each => |name| puts(name)
+    ['Sam', 'Dave', 'John'].each => \name\ puts(name)
 ```
 The output of this function is no longer deterministic, and varies upon execution factors.
 
@@ -85,9 +85,9 @@ and y = 2 in
 </td>
 <td>
 <pre lang="sml" style="margin: 0px;">
-let val x = 5 
-    val y = 2 
-in  x + y 
+let val x = 5
+    val y = 2
+in  x + y
 end
 </pre>
 </td>
@@ -112,8 +112,8 @@ As seen above, an equals sign `=` between the symbol and the value indicates an 
 
 ```brick
 let | x = 5
-    | add1 = |y| { y + 1 }
-    add1(x)                  
+    | add1 = \y\ { y + 1 }
+    add1(x)
 #=> 6
 ```
 Style Note: if an assigned lambda gets too large or unwieldy, consider breaking it into a closure.
@@ -130,7 +130,7 @@ let | x = 1.upto(10).as_vector().random()
     x #=> [7, 9, 3, 1, 8, 4, 10, 2, 6, 5]
     y #=> [1,2,3,4,5,6,7,8,9,10]
 ```
-In this, the x is immediately bound to a random array of `Int`s, but the y is not evaluated until we access it. In addition, whenever we access y, `x.sort()` will be called. 
+In this, the x is immediately bound to a random array of `Int`s, but the y is not evaluated until we access it. In addition, whenever we access y, `x.sort()` will be called.
 
 ```brick
 let | x -> { do_some_funcion(); Random.rand(20) }
@@ -151,7 +151,7 @@ let | !x = 0
 ####Promises and Futures
 `let` forms also allow for creation of futures and promises. A future is a lazily-evaluated sequence that returns some object. A promise is a placeholder for some object we may have later.
 
-```brick 
+```brick
 let | f <- Random.rand(10)
     | !p = Promise()        # A promise is a special ref type
     p.realize(f)
