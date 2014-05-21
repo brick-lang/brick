@@ -17,9 +17,11 @@ glaze> [1, 2, 3, 4]
 Hash Maps can contain multiple types for keys (provided the keys are hashable), mapped to multiple types for values.
 Like Python, interned strings are the default keys. They are interned automatically.
 
+```
 {
 	"One"   : 1,               # String is interned
 	["Two"] : 2,               # String is an object
 	[3]     : "Three",         # Int 3
 	[4, 5]  : "Four and Five"
 }
+```
