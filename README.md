@@ -27,8 +27,8 @@ and something a bit more complex (humbly borrowed from the [Rust demo](http://ww
 fn main
     let | nums = [1, 2]
         | noms = ["Chad", "Nick", "Kristen", "Steve"]
-        | odds = nums.map(|x| x * 2 - 1)
-        odds.each => |num|
+        | odds = nums.map(\x\ x * 2 - 1)
+        odds.each => \num\
             puts("%s says hello from a new thread!", noms[num])
 ```
 
