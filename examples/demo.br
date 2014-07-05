@@ -8,7 +8,8 @@
 # The trait keyword is used to declare a new trait.
 # Only method signatures are allowed in the block.
 # Since traits are only used for method declarations, 
-# all traits have a type signature of `TraitName -> ...`
+# all trait methods have a type signature of 
+# `TraitName -> ...`
 # (The implicit first parameter is always the type of the trait)
 trait Greeter : Trait
     greet(name:String) -> Bool
@@ -27,13 +28,13 @@ class HelloClass(our_name : String) : Object impl ToString
     # (`public members`, `protected members`)
     members
         public # means that getters and setters are created
-        alias : String
+           alias : String
         
         protected # means that only getters are created
-        name : String = our_name
+           name : String = our_name
 
         private # means that neither getters nor setters are created
-        private_var : Int
+           private_var : Int
 
         # access keywords can be restricted to a single variable
         public hello : Int 
@@ -49,7 +50,7 @@ class HelloClass(our_name : String) : Object impl ToString
     last_name = "Johnson" 
 
     # This is a method declaration
-    # Both the argument and return types
+    # Both the argument types and return types
     # are optional
     # The last line of a method is used as the return value
     # If the stated type and the return type are different,
@@ -66,10 +67,10 @@ class HelloClass(our_name : String) : Object impl ToString
         num.times ->
             puts("Hello")
 
-    # The splat character can be used as a
+    # The underscore character can be used as a
     # wildcard for all types, and is used
     # last when there are stricter matches
-    # For example Int : Numeric : *
+    # For example Int : Numeric : _
     # (Numeric is a parent of Int)
     # This is only valid for argument type matching,
     # and not for return types.
@@ -128,14 +129,14 @@ fn lambda_demo
             word += " World."
 
     # This is shorthand for the same:
-    ["Hello"].collect -> |word:String|
+    ["Hello"].collect -> \ word:String \
         word += " World."
 
 fn concurrent_operation
     # When operating on data structures that
     # are able to be spliced, we can do operations
     # concurrently using the '~>' instead '->'
-    ['Sam', 'Dave', 'John'].each ~> |name|
+    ['Sam', 'Dave', 'John'].each ~>  \ name \
         put name
 
     # The output order is no longer deterministic,
