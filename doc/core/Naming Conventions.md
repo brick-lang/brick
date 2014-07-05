@@ -29,7 +29,7 @@ For example:
         a =! 4
 
     let | !ary = [1, 2, 3, 4]
-        ary.map! |!x|
+        ary.map! -> \!x\
             x +! 1
     ```
 This creates a very recognizable pattern: an exclamation point indicates impurity.
