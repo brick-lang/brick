@@ -6,8 +6,9 @@
 #=
 
 # The trait keyword is used to declare a new trait.
-# Since traits are only used for method declarations,
-# all traits have a type signature of `TraitName -> ...`
+# Since traits are only used for method declarations, 
+# all trait methods have a type signature of 
+# `TraitName -> ...`
 # (The implicit first parameter is always the type of the trait)
 trait Greeter : Trait
     greet(name:String) -> Bool
@@ -48,7 +49,7 @@ class HelloClass(our_name : String) : Object impl ToString
     last_name = "Johnson"
 
     # This is a method declaration
-    # Both the argument and return types
+    # Both the argument types and return types
     # are optional
     # The last line of a method is used as the return value
     # If the stated type and the return type are different,
