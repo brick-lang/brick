@@ -9,7 +9,8 @@ All classes are valid types.
 Brick solves this problem similar to Scala. Brick allows only single inheritance between classes. However, you can implement multiple traits. Traits that share method names shadow previous traits, so the last trait in the trait listing will be what is used.
 
 ## The class system
-Classes in Brick are not terribly similar to Java, Obj-C, or any other language that is strict O-O. The closest implementation is Scala. __Methods do not get inherited between classes, but between common traits implemented in the class hierarchy__
+Classes in Brick are not terribly similar to Java, Obj-C, or any other language that is strict O-O. The closest implementation is Scala.  
+__Methods do not get inherited between classes, but between common traits implemented in the class hierarchy__
 
 This is very important. Without method inheritance, classes now only serve the purpose of collecting related method declarations and data structures into one place.
 
@@ -17,19 +18,18 @@ Instead, we rely upon the _trait_ system for a common interface and method inher
 
 Traits that your parent implements but you don't explicitly state for implementation in your class are not immediately available. However, if you want to automatically use all your parent's traits, simply include the parent class' name in the `impl` list.
 
-##Examples
+## Examples
 Let's look at a simple class:
 ```brick
 class Point(x:Int, y:Int)
-    pass
 ```
-From this declaration we can tell a number of things: 
+From this declaration we can tell a number of things:
 - The constructor takes two parameters, both Ints.
-- We have two instance variables: `x` and `y` to represent a point on a 2-D plane. 
+- We have two instance variables: `x` and `y` to represent a point on a 2-D plane.
 - We have no parent classes
 - We have no traits that we're implementing (yet)
 
-In order to make an instance, we'd do: 
+In order to make an instance, we'd do:
 ```brick
 glaze> x = Point(5, 2)
 #=> x : Point(5, 2)
@@ -50,12 +50,12 @@ glaze> x = Point(5, 2)
 #=> x : Point(5, 2)
 glaze> x.to_str()
 #=> "(5, 2)" : String
-glaze> puts(x.to_string())
+glaze> puts(x.to_str())
 (5, 2)
 #=> () : Unit
 ```
 
-Lets add some more functionality. We'll want to be able to move the point, and perhaps to rotate it. 
+Lets add some more functionality. We'll want to be able to move the point, and perhaps to rotate it.
 
 ```brick
 class Point(x:Int, y:Int) impl ToStr
@@ -71,16 +71,19 @@ class Point(x:Int, y:Int) impl ToStr
 ```
 
 Now we can perform these operations
-```brick
+```glaze
 glaze> x = Point(5, 2)
-#=> x : Point(5, 2)
+#=> () : Unit
 glaze> x.move(2, 2)
 #=> #<Point> : Point(7, 4)
 glaze> x.rotate()
 #=> #<Point> : Point(2, 5)
+glaze> x
+#=> #<Point> : Point(5,2)
 ```
 
-Note that these operations are functional, and return new instances of the Point class, with the data we want. In order to mutate an object, we use the ref system, coupled with _mutators_, special functions that take functional ouput and ref-sets the incoming ref. Mutators have type `Ref<ThisClass> -> ...Params -> Ref<ThisClass>`
+Note that these operations are pure, and return new instances of the Point class, with the data we want. In order to mutate an object, we use the ref system, coupled with _mutators_, special functions that take functional ouput and ref-sets the incoming ref. Mutators have type `!ThisClass> -> ...Params -> !ThisClass`.  
+Here's an example mutator:
 
 ```brick
 mutator move!(dx, dy)
@@ -100,4 +103,11 @@ class Point(x:Int, y:Int) impl ToStr
     impl ToStr
         method to_str
             "(:{i}, :{i})".fmt(self.x, self.y)
+```
+Now we can use these functions!
+```glaze
+glaze> !x = Point(5,2)
+#=> x : !Point(5,2)
+glaze> x.rotate!()
+#=> x : !Point(2,5)
 ```

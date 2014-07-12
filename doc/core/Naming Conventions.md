@@ -4,7 +4,7 @@ Naming conventions are _very_ important in Brick. The compiler uses them to figu
 
 For example:
 
-- variables and function names are lowercase and use underscores (snake_cased): 
+- variables and function names are lowercase and use underscores (snake_cased):
 
     ```brick
     let | this_is_a_variable = 4
@@ -29,7 +29,7 @@ For example:
         a =! 4
 
     let | !ary = [1, 2, 3, 4]
-        ary.map! |!x|
+        ary.map! -> \!x\
             x +! 1
     ```
 This creates a very recognizable pattern: an exclamation point indicates impurity.

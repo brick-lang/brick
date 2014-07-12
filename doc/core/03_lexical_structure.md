@@ -1,5 +1,5 @@
-#Lexical Structure
-##Comments
+# Lexical Structure
+## Comments
 ```bnf
 comment : block_comment
         | line_comment ;
@@ -15,7 +15,7 @@ It is planned that block comments will be able to have a hybrid YARD/Markdown sy
 
 Non-doc comments are interpreted as a form of whitespace.
 
-##Whitespace
+## Whitespace
 ```bnf
 whitespace_char : '\x20'
                 | '\x09' ;
@@ -25,15 +25,15 @@ The whitespace_char production is any nonempty Unicode string consisting of eith
 
 In Brick, whitespace is significant, similar to Ruby and Python. It's actually closer to Python, in that we count the whitespace, and then take the difference between two lines in order to insert an `INDENT` or `UNDENT` token.
 
-##Newlines
+## Newlines
 ```bnf
 newline_char : '\x0a'
              | '\x0d' ;
 ```
 U+000A (LF, '\n') or U+000D (CR, '\r')
 
-##Tokens
-###Keywords
+## Tokens
+### Keywords
 ```
 break
 cond class
@@ -50,8 +50,3 @@ test true trait
 unsafe until use
 while
 ```
-
-###Literals
-Literals in Brick are complex.  Much like Ruby, we adopt an 'everything is an object' mentality. However, we also seek to work well on memory-constrained devices. This presents a bit of a problem, which can unfortunately only be solved well the way Java solved it: to a have a small set of literals, and wrapper objects for general use. 
-
-However, we try to be smart. So if you do `let! x = 4`, we know that you don't want x to hold a reference to 4, you want x to _be_ the int 4.

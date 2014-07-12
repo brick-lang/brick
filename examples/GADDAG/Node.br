@@ -1,0 +1,56 @@
+#=
+Another brick demo. This for straightening
+out my thoughts on the language
+#=
+using Mortar[1.5.2]  # these are pallets being used in the program
+
+import Mortar.Maps.TreeMap  # these are the classes that are being used
+import Mortar.Common.Collection
+
+#=
+This is an example class, ported
+from my GADDAG implementation
+#=
+class Node(c:Char) impl Comparable<Node>, ToStr
+    root = '~'
+
+    members
+        content : Char = c
+        finite  : Bool = false
+        children : Map<Char, Node>
+
+    # getters
+    gen_reader(content)
+    gen_accessor(finite, children)
+
+    method keys -> Set<Char>
+        return self.children.keys()
+
+    #=
+    # Get the child nodes from children
+    @return Vector<Node> our kids
+    #=
+    method child_nodes -> Collection<Node>
+        return self.children.values()
+
+    #=
+    # Does this node have a child with the contents c2?
+    @param c the char to check against
+    @return [Bool] true if child hash contains the key
+    #=
+    method has_child?(c:Char) -> Bool
+        !children.has_key?(c)
+
+    method get_child(c:Char) -> Node
+        !children.get(c)
+
+    method add_child!(c:Char) -> Unit
+        children.put!(c, Node(c))
+
+    impl ToStr
+        method to_str -> String
+           content.to_str()
+
+    impl Comparable
+        method spaceship(n:Node) -> Int
+            content <=> n.content

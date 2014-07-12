@@ -1,1 +1,1 @@
-Brick is a statically (eventually inferred) typed language. Syntax is very similar to Ruby and Python, while other components are inherited from languages such as Common Lisp (multimethods), Rust (traits), Erlang and Bud (parallelism), and OCaml (pattern matching).
+Brick is an inferred-typed language. Syntax is very similar to Ruby and Python, while other components are inherited from languages such as Common Lisp (multimethods), Rust (traits), Erlang and Bud (parallelism), OCaml (pattern matching), and Haskell (monads and typeclasses)

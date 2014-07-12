@@ -6,47 +6,64 @@
 #=
 
 # The trait keyword is used to declare a new trait.
-# Since traits are only used for method declarations,
+# Only method signatures are allowed in the block.
+# Since traits are only used for method declarations, 
 # all traits have a type signature of `TraitName -> ...`
 # (The implicit first parameter is always the type of the trait)
 trait Greeter : Trait
     greet(name:String) -> Bool
 
 
-# Object is implied inheritance, but is explicit here for
+# Object is implied inheritance, but is explicit here for 
+<<<<<<< Updated upstream
 # demonstration of the inheritance syntax
 #
-# Classes have a default constructor, which is also used
+# Classes have a default constructor, which is also used 
 # for object deconstruction (pattern matching).
 class HelloClass(our_name : String) : Object impl ToString
     # This is the members block
+=======
+# demonstration purposes
+class HelloClass(my_name:String) : Object
+    # This is the member block
+>>>>>>> Stashed changes
     # It declares the structure of the object
     # Members are private by default. This can be modified
     # by prefixing the accessibilty before the `members` keyword:
     # (`public members`, `protected members`)
     members
+<<<<<<< Updated upstream
         public # means that getters and setters are created
         alias : String
-
+        
         protected # means that only getters are created
         name : String = our_name
 
         private # means that neither getters nor setters are created
+=======
+        name : String = my_name
+        !alias : String = ""
+        private
+>>>>>>> Stashed changes
         private_var : Int
 
         # access keywords can be restricted to a single variable
-        public hello : Int
-
+        public hello : Int 
+        
     # Do note, that you can create your own getters and setters and
     # not use the access keywords in members
 
 
-    # This is a class variable.
+    # This is a class variable. 
     # It is a property of the _class_, not the instances.
     # By default, they are protected. This can be changed by prefix with
     # an access keyword
-    last_name = "Johnson"
+    last_name = "Johnson" 
+<<<<<<< Updated upstream
 
+=======
+    
+>>>>>>> Stashed changes
     # This is a method declaration
     # Both the argument and return types
     # are optional
@@ -61,13 +78,9 @@ class HelloClass(our_name : String) : Object impl ToString
     # By redefining a method with different
     # argument types, we can change the functionality
     # depending on the arguments passed (like Java)
-    method hello(num:Int) -> Unit
+    method hello(num:Int) -> None
         num.times ->
             puts("Hello")
-
-    # By not constraining the types, they are inferred.
-    method hello(name)
-        puts("Hello %s" % name.to_s)
 
     # This is a multi-method
     # All the code in the block gets executed __before__
@@ -108,7 +121,7 @@ class HelloClass(our_name : String) : Object impl ToString
 
 
 # OR by fully specifiying the scope of the trait:
-impl HelloClass.Greeter
+impl HelloClass::Greeter
     method greet(name:String)
         # This is another way of doing string interpolation
         puts("Hello, {:s}", name)
@@ -117,18 +130,18 @@ fn lambda_demo
     ["Hello"].collect ->
         # This is a lambda declaration
         # The argument and return types are optional
-        fn(word:String) -> String
+        fn (word:String) -> String
             word += " World."
 
     # This is shorthand for the same:
-    ["Hello"].collect -> \word:String\
+    ["Hello"].collect -> |word:String|
         word += " World."
 
 fn concurrent_operation
     # When operating on data structures that
     # are able to be spliced, we can do operations
-    # concurrently using the '=>' instead '->'
-    ['Sam', 'Dave', 'John'].each => \name\
+    # concurrently using the '~>' instead '->'
+    ['Sam', 'Dave', 'John'].each ~> |name|
         put name
 
     # The output order is no longer deterministic,
@@ -154,9 +167,9 @@ fn fib(num:Int) -> Int
 
 fn more_pattern_matching(n:String) -> String
     match n
-        | '0'     -> puts("Zero")
-        | /[1-9]/ -> puts("One through Nine")
-        | _       -> puts("Something else")
+        | '0'     -> put "Zero"
+        | /[1-9]/ -> put "One through Nine"
+        | _       -> put "Something else"
 
 # This is an example of the 'cond' keyword.
 # You may notice it looks very similar to how the 'match' keyword works.
@@ -200,5 +213,5 @@ fn let_demo -> Int
 fn do_demo -> None
     do  | x = 1 -> 1 + x
         | y = x -> 3 * y
-        puts(x)
-        puts(y)
+        puts x
+        puts y

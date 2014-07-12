@@ -1,12 +1,12 @@
 Let's look at some numbers:
 
-12
-0.12
-12.1
-0177
-0xEF
-12e-20
-3+4j
+12  
+0.12  
+12.1  
+0177  
+0xEF  
+12e-20  
+3+4j  
 
 ###Integers
 Integers are represented using the `Integer` class.

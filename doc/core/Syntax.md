@@ -1,5 +1,5 @@
 Computer languages are meant to be read.  
-What a programming language is meant to do is convey an idea, as consisely and simply as possible, between two entities. Computers are now powerful enough that they do not have to be one of those entities. Instead, we should be programming as if someone looking over our shoulder could directly understand our thought process, just from looking at what we write. We should be writing for other humans, not for abstract, esoteric computer systems.  
+What a programming language is meant to do is convey an idea, as consisely and simply as possible, between two entities. Computers are now powerful enough that they do not have to be one of those entities. Instead, we should be programming as if someone looking over our shoulder could directly understand our thought process, just from looking at what we write. We should be writing for other humans, not for abstract, esoteric systems.  
 
 __Brick__ is a language designed to be read. Almost every sigil translates directly to a common idea. You should be able to read your program aloud, and have it make sense.  Clear, concise, clean.
 
@@ -116,14 +116,14 @@ let | x = 5
     add1(x)
 #=> 6
 ```
-Style Note: if an assigned lambda gets too large or unwieldy, consider breaking it into a closure.
+__Style Note__: if an assigned lambda gets too large or unwieldy, consider breaking it into a closure.
 
 ####Call Assignment
 Inside a `let` form, a rightward (do-type) arrow indicates function call binding. You can think of it as a kind of lazy evaluation, but it's a bit different than what you may be used to. Instead of binding the value of the return from the function call to the variable when we need it, we are actually binding the variable to the _action_ of executing a lambda or function. The associated function needs to have all parameters filled in.
 
 Here's a couple examples:
 ```brick
-let | x = 1.upto(10).as_vector().random()
+let | x = [1 .. 10].random()
     | y -> x.sort()
     x #=> [7, 9, 3, 1, 8, 4, 10, 2, 6, 5]
     y #=> [1,2,3,4,5,6,7,8,9,10]
@@ -152,18 +152,24 @@ let | !x = 0
 `let` forms also allow for creation of futures and promises. A future is a lazily-evaluated sequence that returns some object. A promise is a placeholder for some object we may have later.
 
 ```brick
-let | f <- Random.rand(10)
-    | !p = Promise()        # A promise is a special ref type
-    p.realize(f)
-    !p                      #=> 6
+let | f <- Random.rand(10)  # A forked call (future)
+    | p = Promise()         # A promise is a special ref type
+    f.realized?()           # could be true or false
+    p.realized?()           #=> false
+    !f                      # dereferencing a future blocks until execution is completed
+    f.realized?()           #=> true
+    p.realized?()           #=> false
+    p.deliver(300)          # delivering a value
+    p.realized?()           #=> true
+    !p                      #=> 300
 ```
 
-##Comments
+## Comments
 Comments are denoted by the '#' character. Single-line comments are a '#' followed by a space, with the rest of the line being devoted to the comment
 
 Multi-line comments are done with '#=' for both the start and end tags, and are justified to the left side of the '#'. This means that formatting and indentation performed in a block comment persists to the generated documentation. Inside of a block comment, we parse as if GitHub-flavored Markdown, which allows for succinct examples and linking.
 
-##Classes
+## Classes
 Classes are denoted by the `class` keyword. This indicates the start of a line which states the class's name and default constructor, and optionally, the class' parent, and implemented traits.
 
 Class names are camel-cased, with the first letter being uppercase.
@@ -172,16 +178,18 @@ A class line typically follows the format:
 `class NewClass(constructor_args:SomeType) : ParentClass impl SomeTrait`  
 This means "declare a new class, whose default constructor takes these parameters, named 'NewClass' that inherits data structures from 'MyClass', that implements the 'Greeter' trait."
 
-##Modules
+## Modules
 Modules are used for name-spacing. They collect related classes and functions into a single area. For example:
 ```brick
 module MyModule
     class MyClass
     fn my_fn
 ```
-`MyClass` and `my_fn` are accessed using `MyModule::MyClass` and `MyModule::my_fn`
+`MyClass` and `my_fn` are accessed using `MyModule.MyClass` and `MyModule.my_fn`
 
 Module names are camel-cased, with the first letter being uppercase. In this way, they are indistinguishable from Classes except that `MyModule.class? -> false` and `MyModule.module? -> true`
+
+__Note__: Despite using the same naming format, modules are __not__ valid types.
 
 ##Traits
 Traits are used for method inheritance. This allows for a flexible system that does not rely upon multiple-inheritance or interfaces, as traits combine good qualities from both systems.
