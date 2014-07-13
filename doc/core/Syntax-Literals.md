@@ -33,7 +33,7 @@ glaze> let my_vec = [1,2,3,4,5]
 
 my_vec : Vector = [1,2,3,4,5]
 
-glaze> let my_list : List = [1,2,3,4,5]
+glaze> let my_list : List<~> = [1,2,3,4,5]
 
 my_list : List = [1,2,3,4,5]
 ```
