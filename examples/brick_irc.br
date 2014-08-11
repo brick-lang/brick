@@ -1,5 +1,5 @@
 #=
-    A super-simple IRC bot, to experiment with Brick
+  A super-simple IRC bot, to experiment with Brick
 #=
 import Net.Socket.TCP
 
@@ -19,24 +19,32 @@ commands = {
 }
 
 fn listener(sock:Socket, s:String)
-    if s.substring(0, 6) == "PING :"
-        sock.write("PONG :" + s.substring(6, s.length))
-    else
-        let | p = s.find(":")
-            | cs = s.substring(p, s.length)
-            | exp = cs.explode(" ")
-            if commands.has_key?(exp[0])
-                puts(exp[0] + "> " + exp.drop(1).implode(" "))
-                commands.get(exp[0])(sock, exp.drop(1))
-            else
-                puts("> " + cs)
+  if s.substring(0, 6) == "PING :"
+    sock.write("PONG :" + s.substring(6, s.length))
+  else
+    let p = s.find(":")
+        cs = s.substring(p, s.length)
+        exp = cs.explode(" ")
+    in
+      if commands.has_key?(exp[0])
+        puts(exp[0] + "> " + exp.drop(1).implode(" "))
+        commands.get(exp[0])(sock, exp.drop(1))
+      else
+        puts("> " + cs)
+      end
+    end
+  end
+end
 
 fn main
-    let | !sock = TCP(server, port)
-        if not !sock.success?
-            puts("Failed to connect to server")
-        else
-            !sock.write("NICK " + nick)
-            !sock.write("USER " + nick + " 0 * :" + nick + " bot")
-            !sock.write("JOIN " + channel)
-            sock.listen!(listener)
+  let !sock = TCP(server, port) in
+    if not !sock.success?
+      puts("Failed to connect to server")
+    else
+      !sock.write("NICK " + nick)
+      !sock.write("USER " + nick + " 0 * :" + nick + " bot")
+      !sock.write("JOIN " + channel)
+      sock.listen!(listener)
+    end
+  end
+end
