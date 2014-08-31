@@ -22,12 +22,12 @@ OCaml and Haskell might have:
 
 Unfortunately, this seems to make it harder for the language to be read.
 
-In fact, 'Yoda' style programming is often looked down upon in certain communities because of its' difficulty to understand and debug.
+In fact, 'Yoda' style programming is often looked down upon in certain communities because of its difficulty to understand and debug.
 E.g.
 
 	Bark at the tree, the dog does.
 
-which is often how functioal language calls are performed
+which is often how functional language calls are performed
 ```haskell
 bark :: String -> String -> String
 bark tree dog = "The " ++ dog ++ " barks at the " ++ tree ++ " tree."

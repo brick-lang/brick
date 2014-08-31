@@ -11,5 +11,5 @@ hello = fn (name:String)
 fn hello(name:String)
 	puts("Hello, :{s}".fmt(name))
 
-hello = \name:String\ { puts("Hello, :{s}".fmt(name)) }
+hello = |name:String| { puts("Hello, :{s}".fmt(name)) }
 ```

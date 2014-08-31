@@ -19,9 +19,11 @@ type Number
 
 fn foo(false)
   false
+end
 
 fn foo(true) -> String
   "true"
+end
 
 foo :: Bool -> %[ Bool | String ]
 
@@ -30,5 +32,7 @@ fn bar(b)
   match foo(b)
     | String(s) -> print(s)
     | Bool(b) -> print(b.as_str())
+  end
+end
 
 bar :: Bool -> ()

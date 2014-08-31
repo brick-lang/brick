@@ -35,17 +35,18 @@ glaze> [1, 2, 3, 4] : Array<~>
 They are useful for fast, short-lived calculations.  
 Based on the operations performed on a container, Brick will try and make a sequence into an array.
 ```brick
-let | a : Array<!~> = [1, 2, 3, 4]
-    a.map => \e\
-	    e =! !e * 2 if !e % 4 == 0
-
+let a : Array<!~> = [1, 2, 3, 4] in
+  a.map => |e|
+	   e =! !e * 2 if !e % 4 == 0
+  end
+end
 #=>  [1, 4, 3, 16] : Array<!Fixnum>
 ```
 ###Lists
 
 ##Associative Containers
 ###Sets
-Sets are unordered, homogeneos, un-directed structures 
+Sets are unordered, homogeneos, un-directed structures
 
 ###Maps
 
@@ -71,10 +72,10 @@ HashMaps rely on the `Hashable` trait's `hash` method.
 
 
 ###Performance
-|                            | Vector   | List | Array |     Set     | HashSet| Map | HashMap | 
+|                            | Vector   | List | Array |     Set     | HashSet| Map | HashMap |
 |----------------------------|:--------:|-----:|:-----:|:-----------:|:------:|:---:|:-------:|
 | Access (worst)             | O(log n) | O(n) | N/A   |
-| Access (average)           | O(1)     | O(n) | O(1)  | 
-| Insertion (worst)          | O(1) + ? | O(n) | N/A   | 
+| Access (average)           | O(1)     | O(n) | O(1)  |
+| Insertion (worst)          | O(1) + ? | O(n) | N/A   |
 | Insertion (average)        | O(1)     | O(1) | O(1)  |
-| Search (Best)              | O(n)     | O(n) | O(n)  | O(n log(n)) | 
+| Search (Best)              | O(n)     | O(n) | O(n)  | O(n log(n)) |

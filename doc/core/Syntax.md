@@ -15,14 +15,16 @@ The stabby arrow is read as 'yields' or 'does'.
 ####Type declarations/restrictions
 ```brick
 method add(num:Int) -> Int
-    return self + num
+  return self + num
+end
 ```
 This method _will always_ return an `Int`. Knowing that, we can make further optimizations on functions that call this method.  
 However if we were to do
 
 ```brick
 method add(num)
-    return self + num
+  return self + num
+end
 ```
 The return type will always degrade to `Addable`, since we could end up as either a `String`, an `Int`, or some other class if we overloaded the `+` operator with the `Addable` trait.
 
@@ -31,9 +33,21 @@ The stabby arrow also indicates execution of a lambda. With the stabby arrow, th
 
 ```brick
 method pipelined -> Unit
-    ['Sam', 'Dave', 'John'].each -> \name\ puts(name)
+  ['Sam', 'Dave', 'John'].each -> |name|
+    puts(name)
+  end
+end
 ```
-The arrow is optional, but recommended as it is verbose.
+This syntax is equivalent to
+
+```brick
+method pipelined -> Unit
+  ['Sam', 'Dave', 'John'].each(|name|
+    puts(name)
+  end)
+end
+```
+
 
 ##~> (The Curvy Arrow)
 The curvy arrow is used to denote synchronized execution à la Clojure's `dosync`.
@@ -52,7 +66,10 @@ If we were to change one of the previous examples, we can use a fat arrow instea
 
 ```brick
 method threaded -> None
-    ['Sam', 'Dave', 'John'].each => \name\ puts(name)
+  ['Sam', 'Dave', 'John'].each => |name|
+    puts(name)
+  end
+end
 ```
 The output of this function is no longer deterministic, and varies upon execution factors.
 
@@ -95,14 +112,17 @@ end
 <pre lang="haskell" style="margin: 0px;">
 let x = 5
     y = 2
-in  x + y
+in
+  x + y
 </pre>
 </td>
 <td>
 <pre lang="brick" style="margin: 0px;">
-let | x = 5
-    | y = 2
-    x + y
+let x = 5
+    y = 2
+in
+  x + y
+end
 </pre>
 </td>
 </tr>
@@ -111,9 +131,11 @@ let | x = 5
 As seen above, an equals sign `=` between the symbol and the value indicates an assignment. In Brick, this assignment is eager, and so the right side is evaluated before the assignment actually occurs. You can assign various things to variables, including objects, functions, classes, symbols, etc.
 
 ```brick
-let | x = 5
-    | add1 = \y\ { y + 1 }
-    add1(x)
+let x = 5
+    add1 = |y| { y + 1 }
+in
+  add1(x)
+end
 #=> 6
 ```
 __Style Note__: if an assigned lambda gets too large or unwieldy, consider breaking it into a closure.
@@ -123,45 +145,54 @@ Inside a `let` form, a rightward (do-type) arrow indicates function call binding
 
 Here's a couple examples:
 ```brick
-let | x = [1 .. 10].random()
-    | y -> x.sort()
-    x #=> [7, 9, 3, 1, 8, 4, 10, 2, 6, 5]
-    y #=> [1,2,3,4,5,6,7,8,9,10]
-    x #=> [7, 9, 3, 1, 8, 4, 10, 2, 6, 5]
-    y #=> [1,2,3,4,5,6,7,8,9,10]
+let x = [1 .. 10].random()
+    y -> x.sort()
+in
+  x #=> [7, 9, 3, 1, 8, 4, 10, 2, 6, 5]
+  y #=> [1,2,3,4,5,6,7,8,9,10]
+  x #=> [7, 9, 3, 1, 8, 4, 10, 2, 6, 5]
+  y #=> [1,2,3,4,5,6,7,8,9,10]
+end
 ```
 In this, the x is immediately bound to a random array of `Int`s, but the y is not evaluated until we access it. In addition, whenever we access y, `x.sort()` will be called.
 
 ```brick
-let | x -> { do_some_funcion(); Random.rand(20) }
-    x #=> 19
-    x #=> 3
-    x #=> 5
+let x -> { do_some_funcion(); Random.rand(20) }
+in
+  x #=> 19
+  x #=> 3
+  x #=> 5
+end
 ```
 
 Any variable can have both a value _and_ a function associated with it at any time. This allows for very neat constructs, such as auto-incrementing systems, and C-like iterators.
 
 ```brick
-let | !x = 0
-         ~> x.add!(1)
-    | y = 1.upto(100).as_array()
-    while !x <= y.size
-        puts(y[!x])
+let !x = 0
+       ~> x.add!(1)
+    y = 1.upto(100).as_array()
+in
+  while !x <= y.size
+    puts(y[!x])
+  end
+end
 ```
 ####Promises and Futures
 `let` forms also allow for creation of futures and promises. A future is a lazily-evaluated sequence that returns some object. A promise is a placeholder for some object we may have later.
 
 ```brick
-let | f <- Random.rand(10)  # A forked call (future)
-    | p = Promise()         # A promise is a special ref type
-    f.realized?()           # could be true or false
-    p.realized?()           #=> false
-    !f                      # dereferencing a future blocks until execution is completed
-    f.realized?()           #=> true
-    p.realized?()           #=> false
-    p.deliver(300)          # delivering a value
-    p.realized?()           #=> true
-    !p                      #=> 300
+let f <- Random.rand(10)  # A forked call (future)
+    p = Promise()         # A promise is a special ref type
+in
+  f.realized?()           # could be true or false
+  p.realized?()           #=> false
+  !f                      # dereferencing a future blocks until execution is completed
+  f.realized?()           #=> true
+  p.realized?()           #=> false
+  p.deliver(300)          # delivering a value
+  p.realized?()           #=> true
+  !p                      #=> 300
+end
 ```
 
 ## Comments
@@ -182,8 +213,9 @@ This means "declare a new class, whose default constructor takes these parameter
 Modules are used for name-spacing. They collect related classes and functions into a single area. For example:
 ```brick
 module MyModule
-    class MyClass
-    fn my_fn
+  class MyClass; end
+  fn my_fn; end
+end
 ```
 `MyClass` and `my_fn` are accessed using `MyModule.MyClass` and `MyModule.my_fn`
 

@@ -4,7 +4,7 @@ Rust sez: "A trait describes a set of method types."
 
 All you Java programmers out there may go "Ha! That's an interface!"  
 
-Well, basically, yeah. 
+Well, basically, yeah.
 
 Traits are a way of describing common method inter-ops between classes, and (therefore) their common underlying data structures. This is very similar in practice to Java interfaces. Prior to Java 1.8, interfaces only described the methods that the interface used. However, now interfaces can have default implementations. Since Java also generic interfaces, Java's 'interface' has actually become more of a 'trait'.
 
@@ -13,11 +13,13 @@ A trait definition can inherit from another trait definition.
 For example:
 ```brick
 trait Shape
-    circle? -> Bool
+  circle? -> Bool
+end
 
 trait Polygon : Shape
-    equilateral? -> Bool
-    num_sides    -> Int
+  equilateral? -> Bool
+  num_sides    -> Int
+end
 ```
 This means that a class `Rectangle`, which has the trait `Polygon` should implement the functions `circle?`, `equilateral?`, and `num_sides`. All of these method declarations are 'abstract'; they don't have any concrete implementation of the method. The compiler will warn you when using a trait and not implementing all abstract methods.
 
@@ -37,7 +39,8 @@ br> square.is_a?(Shape)
 
 ```brick
 fn our_num_sides(polygon:Polygon) -> Int
-    polygon.num_sides()
+  polygon.num_sides()
+end
 ```
 
 ##Traits can be generic

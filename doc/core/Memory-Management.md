@@ -2,8 +2,7 @@ Memory in Brick is automatically managed. This is done with a generational garba
 
 # Object Creation
 ```brick
-let | o = MyClass()
-	o  
+let o = MyClass() in o end
 #=> #<MyClass:0x00000000000000> : MyClass
 ```
 
