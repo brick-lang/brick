@@ -38,9 +38,12 @@ glaze> x = Point(5, 2)
 But this isn't terribly helpful, as we now have a Point object floating around, with nothing we can do with it. Let's change that:
 ```brick
 class Point(x:Int, y:Int) impl ToStr
-    impl ToStr
-        method to_str
-            "(:{i}, :{i})".fmt(self.x, self.y)
+  impl ToStr
+    method to_str
+      "(:{i}, :{i})".fmt(self.x, self.y)
+    end
+  end
+end
 ```
 We're now implementing the `ToStr` trait, which is a simple trait that indicates serialization to a string.
 
@@ -59,15 +62,20 @@ Lets add some more functionality. We'll want to be able to move the point, and p
 
 ```brick
 class Point(x:Int, y:Int) impl ToStr
-    method move(dx, dy)
-        Point(self.x + dx, self.y + dy)
+  method move(dx, dy)
+    Point(self.x + dx, self.y + dy)
+  end
 
-    method rotate
-        Point(self.y, self.x)
+  method rotate
+    Point(self.y, self.x)
+  end
 
-    impl ToStr
-        method to_str
-            "(:{i}, :{i})".fmt(self.x, self.y)
+  impl ToStr
+    method to_str
+      "(:{i}, :{i})".fmt(self.x, self.y)
+    end
+  end
+end
 ```
 
 Now we can perform these operations
@@ -87,22 +95,28 @@ Here's an example mutator:
 
 ```brick
 mutator move!(dx, dy)
-    self != !self.move(dx, dy)
+  self != !self.move(dx, dy)
+end
 ```
 For ease of use, there is a `gen_mutator` macro that can automatically generate mutators for specific methods in your class
 
 ```brick
 class Point(x:Int, y:Int) impl ToStr
-    method move(dx, dy)
-        Point(self.x + dx, self.y + dy)
+  method move(dx, dy)
+    Point(self.x + dx, self.y + dy)
+  end
 
-    method rotate
-        Point(self.y, self.x)
+  method rotate
+    Point(self.y, self.x)
+  end
 
-    gen_mutator(move, rotate) # This creates the move! and rotate! mutators
-    impl ToStr
-        method to_str
-            "(:{i}, :{i})".fmt(self.x, self.y)
+  gen_mutator(move, rotate) # This creates the move! and rotate! mutators
+  impl ToStr
+    method to_str
+      "(:{i}, :{i})".fmt(self.x, self.y)
+    end
+  end
+end
 ```
 Now we can use these functions!
 ```glaze
