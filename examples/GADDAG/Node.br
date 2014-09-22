@@ -12,45 +12,56 @@ This is an example class, ported
 from my GADDAG implementation
 #=
 class Node(c:Char) impl Comparable<Node>, ToStr
-    root = '~'
+  root = '~'
 
-    members
-        content : Char = c
-        finite  : Bool = false
-        children : Map<Char, Node>
+  members
+    content : Char = c
+    finite  : Bool = false
+    children : Map<Char, Node>
+  end
 
-    # getters
-    gen_reader(content)
-    gen_accessor(finite, children)
+  # getters
+  gen_reader(content)
+  gen_accessor(finite, children)
 
-    method keys -> Set<Char>
-        return self.children.keys()
+  method keys -> Set<Char>
+    return self.children.keys()
+  end
 
-    #=
-    # Get the child nodes from children
-    @return Vector<Node> our kids
-    #=
-    method child_nodes -> Collection<Node>
-        return self.children.values()
+  #=
+  # Get the child nodes from children
+  @return Vector<Node> our kids
+  #=
+  method child_nodes -> Collection<Node>
+    return self.children.values()
+  end
 
-    #=
-    # Does this node have a child with the contents c2?
-    @param c the char to check against
-    @return [Bool] true if child hash contains the key
-    #=
-    method has_child?(c:Char) -> Bool
-        !children.has_key?(c)
+  #=
+  # Does this node have a child with the contents c2?
+  @param c the char to check against
+  @return [Bool] true if child hash contains the key
+  #=
+  method has_child?(c:Char) -> Bool
+    !children.has_key?(c)
+  end
 
-    method get_child(c:Char) -> Node
-        !children.get(c)
+  method get_child(c:Char) -> Node
+    !children.get(c)
+  end
 
-    method add_child!(c:Char) -> Unit
-        children.put!(c, Node(c))
+  method add_child!(c:Char) -> Unit
+    children.put!(c, Node(c))
+  end
 
-    impl ToStr
-        method to_str -> String
-           content.to_str()
+  impl ToStr
+    method to_str -> String
+     content.to_str()
+    end
+  end
 
-    impl Comparable
-        method spaceship(n:Node) -> Int
-            content <=> n.content
+  impl Comparable
+    method spaceship(n:Node) -> Int
+      content <=> n.content
+    end
+  end
+end
