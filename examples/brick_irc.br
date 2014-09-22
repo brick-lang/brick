@@ -8,12 +8,12 @@ port = 6667
 nick = "Brick"
 channel = "#brick_bot"
 commands = {
-    "!quit": \sock:Socket, _:Array<String>\ {
+    "!quit": |sock:Socket, _:Array<String>| {
         sock.write("QUIT :Exiting")
         sock.destroy!
         exit(0)
     },
-    "!id": \sock:Socket, words:Array<String>\ {
+    "!id": |sock:Socket, words:Array<String>| {
         sock.write("PRIVMSG " + channel + " :" + words.implode(" "))
     }
 }
