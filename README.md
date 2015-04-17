@@ -1,6 +1,6 @@
 #Brick
 
-__Brick__ is a modern, functional, object-oriented language, designed to have the expressiveness you've come to expect from languages like Ruby and Python, joined with the power of Common Lisp, Rust, and ML.
+__Brick__ is a modern, functional, OO-like language, designed to have the expressiveness you've come to expect from languages like Ruby and Python, joined with the power of Common Lisp, Rust, and ML.
 
 
 Here's a quick list of features we are working on supporting in the core language:
