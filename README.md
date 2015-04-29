@@ -49,7 +49,7 @@ Here's some areas we're working on right now:
 * The language definition (Kind of a big deal to get this ironed out)
 * Writing the [reference compiler/interpreter](https://github.com/brick-lang/kiln). Technologies used include:
   * [OCaml](http://ocaml.org/)
-  * OCamllex: The tokenizer
+  * [Sedlex](https://github.com/toroidal-code/sedlex/tree/pr/line): The tokenizer
   * [Menhir](http://gallium.inria.fr/~fpottier/menhir/): The program parser
   * [Jane Street's Core](https://github.com/janestreet/core) library for OCaml
   * [LLVM](http://llvm.org/docs/): The backend
