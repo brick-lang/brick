@@ -1,6 +1,6 @@
-#Brick
+# Brick
 
-__Brick__ is a modern, functional, OO-like language, designed to have the expressiveness you've come to expect from languages like Ruby and Python, joined with the power of Common Lisp, Rust, and ML.
+**Brick** is a modern, functional, OO-like language, designed to have the expressiveness you've come to expect from languages like Ruby and Python, joined with the power of Common Lisp, Rust, and ML.
 
 
 Here's a quick list of features we are working on supporting in the core language:
@@ -23,7 +23,7 @@ fn main
 end
 ```
 
-and something a bit more complex (humbly borrowed from the [Rust demo](http://www.rust-lang.org/)):
+And something a bit more complex:
 ```brick
 fn main
   let nums = [1, 2]
@@ -41,7 +41,7 @@ Interested?
 
 Read the [docs](https://github.com/brick-lang/brick-lang/tree/master/doc/core)
 
-##Getting Involved
+## Getting Involved
 So you want to help out. That's great!  
 Whether you're a Ruby developer, a Node.js hipster, or a C wizard, we can use your help.
 
@@ -51,13 +51,11 @@ Here's some areas we're working on right now:
   * [OCaml](http://ocaml.org/)
   * [Sedlex](https://github.com/toroidal-code/sedlex/tree/pr/line): The tokenizer
   * [Menhir](http://gallium.inria.fr/~fpottier/menhir/): The program parser
-  * [Jane Street's Core](https://github.com/janestreet/core) library for OCaml
   * [LLVM](http://llvm.org/docs/): The backend
   * [Linenoise](https://github.com/antirez/linenoise): The REPL
 * Writing the runtime for the compiler. Technologies used include:
   * [libuv](https://github.com/joyent/libuv): Cross-platform abstraction
-  * [Rust](http://www.rust-lang.org/): The runtime itself
-  * C: Glue between Rust, OCaml, and other pieces
+  * C: Glue between all the pieces
 * The website, [brick-lang.org](http://brick-lang.org). Possible technologies include:
   * Node.js + Express
   * Ruby + Jekyll or Sinatra
@@ -74,6 +72,6 @@ On the other hand, Clojure, Scala, and OCaml are the main functional languages f
 
 I want to use features from OCaml and Haskell _and Rust_ in my daily work. But I don't do systems level programming very often. It's too low level for many of the things I do.
 
-So Brick is being designed to integrate tightly with Rust (and C). But it's not a competitor at all. If you debate between using Brick and Rust, you should re-evaluate your intent.
+So Brick is being designed to integrate with other languages at a low level, such as Rust and C. But it's not a competitor at all. If you debate between using Brick and Rust, you should re-evaluate your intent.
 
 Not to mention that Brick is nowhere near the level development of Rust right now :P

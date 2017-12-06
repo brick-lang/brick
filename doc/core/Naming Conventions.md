@@ -1,4 +1,4 @@
-#Naming Conventions
+# Naming Conventions
 
 Naming conventions are _very_ important in Brick. The compiler uses them to figure out what you are trying to refer to, and how things relate.
 

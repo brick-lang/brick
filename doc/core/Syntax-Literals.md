@@ -1,13 +1,13 @@
-#Syntax Literals
+# Syntax Literals
 
-##String literals
+## String literals
 Strings are represented with quotes: `'string'` or `"interpolated string"`. Use single quotes `'` when you don't need the extra features. 
 
-##Multi-line Strings
+## Multi-line Strings
 Multi-line strings are represented with triple-quotes `'''Some String'''` or `"""Some String"""`
 
 
-##Map literals
+## Map literals
 Map literals are similar to JSON, with some extensions.
 ```brick
 glaze> let english_to_japanese = {
@@ -26,7 +26,7 @@ glaze> let english_to_japanese = {
 english_to_japanese : Map<String, String>
 ```
 
-##Sequence literals
+## Sequence literals
 Sequence literals are represents by square brackets: `[ ]`. The default type of the sequence literal is `Vector`. With type annotations, this literal can also be used with any other type that implements the `Sequence` trait, such as `List`, `Array`, and `Vector`.
 ```brick
 glaze> let my_vec = [1,2,3,4,5]

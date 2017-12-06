@@ -4,15 +4,15 @@ What a programming language is meant to do is convey an idea, as consisely and s
 __Brick__ is a language designed to be read. Almost every sigil translates directly to a common idea. You should be able to read your program aloud, and have it make sense.  Clear, concise, clean.
 
 
-#Arrows
+# Arrows
 Arrows play a large part of Brick. They indicate execution style and return types.
 
-##-> (The Stabby Arrow)
+## -> (The Stabby Arrow)
 The stabby arrow is used for a variety of things, the most important of which is return type declarations and signatures.
 
 The stabby arrow is read as 'yields' or 'does'.  
 
-####Type declarations/restrictions
+#### Type declarations/restrictions
 ```brick
 method add(num:Int) -> Int
   return self + num
@@ -28,7 +28,7 @@ end
 ```
 The return type will always degrade to `Addable`, since we could end up as either a `String`, an `Int`, or some other class if we overloaded the `+` operator with the `Addable` trait.
 
-####Lambdas
+#### Lambdas
 The stabby arrow also indicates execution of a lambda. With the stabby arrow, this execution is blocking and pipelined. Execution with this should be mostly 'pure', or having no effect on things outside of the lambda.
 
 ```brick
@@ -49,7 +49,7 @@ end
 ```
 
 
-##~> (The Curvy Arrow)
+## ~> (The Curvy Arrow)
 The curvy arrow is used to denote synchronized execution à la Clojure's `dosync`.
 It is read as 'does synchronized' or 'does atomically'.
 
@@ -58,7 +58,7 @@ We use a `ref` system, similar to OCaml and Clojure, though closer to Clojure. R
 We clump impure (mutating) functionality into a 'synchronized' block. If you've ever used Clojure, you already know how this works. Synchronization ensures that side effects don't interfere with thread execution. By versioning the object's state, and then moving between versions, we eliminite race conditions.
 
 
-##=> (The Fat Arrow)
+## => (The Fat Arrow)
 The fat arrow is used to denote concurrent execution.  
 It is read as 'does threaded' or 'does parallel'.  
 
@@ -75,7 +75,7 @@ The output of this function is no longer deterministic, and varies upon executio
 
 __WARNING__ be careful of introducing impurity and object modification into concurrently executed lambdas. If you need to change state in a parallel lambda, prefix the line with, or create a block with, a `~>`.
 
-##Let forms
+## Let forms
 Let forms allow you to create a new execution context. They bind values (among other things) to variables.
 
 Unlike most imperitive languages, in Brick you cannot assign values to variables arbitrarily. Instead, a wrapping context is created, similar to Lisp, OCaml, SML, and Haskell.
@@ -127,7 +127,8 @@ end
 </td>
 </tr>
 </table>
-####Strict Assignment
+
+#### Strict Assignment
 As seen above, an equals sign `=` between the symbol and the value indicates an assignment. In Brick, this assignment is eager, and so the right side is evaluated before the assignment actually occurs. You can assign various things to variables, including objects, functions, classes, symbols, etc.
 
 ```brick
@@ -140,7 +141,7 @@ end
 ```
 __Style Note__: if an assigned lambda gets too large or unwieldy, consider breaking it into a closure.
 
-####Call Assignment
+#### Call Assignment
 Inside a `let` form, a rightward (do-type) arrow indicates function call binding. You can think of it as a kind of lazy evaluation, but it's a bit different than what you may be used to. Instead of binding the value of the return from the function call to the variable when we need it, we are actually binding the variable to the _action_ of executing a lambda or function. The associated function needs to have all parameters filled in.
 
 Here's a couple examples:
@@ -177,7 +178,7 @@ in
   end
 end
 ```
-####Promises and Futures
+#### Promises and Futures
 `let` forms also allow for creation of futures and promises. A future is a lazily-evaluated sequence that returns some object. A promise is a placeholder for some object we may have later.
 
 ```brick
@@ -223,5 +224,5 @@ Module names are camel-cased, with the first letter being uppercase. In this way
 
 __Note__: Despite using the same naming format, modules are __not__ valid types.
 
-##Traits
+## Traits
 Traits are used for method inheritance. This allows for a flexible system that does not rely upon multiple-inheritance or interfaces, as traits combine good qualities from both systems.

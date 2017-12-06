@@ -6,5 +6,5 @@ let o = MyClass() in o end
 #=> #<MyClass:0x00000000000000> : MyClass
 ```
 
-##Object Destruction
+## Object Destruction
 Since everything is garbage collected, you don't have to worry about this!

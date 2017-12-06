@@ -1,6 +1,6 @@
-#Literals
+# Literals
 
-###Tuples
+### Tuples
 Tuples are basic structures that are heterogeneous (can contain multiple types).
 ```glaze
 glaze> (1, "Hello", 4.22)
@@ -12,10 +12,10 @@ glaze> (1, "Hello", 4.22)[1]
 #=> "Hello" : String
 ```
 
-#####Note: if you want a "named" tuple (i.e. with fields), use a class.
+##### Note: if you want a "named" tuple (i.e. with fields), use a class.
 
-##Sequence Containers
-###Vectors
+## Sequence Containers
+### Vectors
 Vectors are homogeneous, variable-width, 'semi-rigid' structures.  
 If you're coming from Java, Vectors are very similar to ArrayLists.  
 By default vectors are allocated with space for `n + 2 * floor(n/3)` elements, where n is the number of initial elements.
@@ -25,7 +25,7 @@ glaze> [1, 2, 3, 4]
 ```
 Vectors are backed by [VLists](http://en.wikipedia.org/wiki/VList) internally.
 
-###Arrays
+### Arrays
 Arrays are homogenous, fixed-length, 'rigid' structures.  
 They are typically allocated on the stack for performance reasons.
 ```glaze
@@ -42,13 +42,13 @@ let a : Array<!~> = [1, 2, 3, 4] in
 end
 #=>  [1, 4, 3, 16] : Array<!Fixnum>
 ```
-###Lists
+### Lists
 
-##Associative Containers
-###Sets
+## Associative Containers
+### Sets
 Sets are unordered, homogeneos, un-directed structures
 
-###Maps
+### Maps
 
 Maps are homogeneous, uni-directional, associational structures.  
 They are backed by an underlying optimized tree implentation.
@@ -63,15 +63,15 @@ They are backed by an underlying optimized tree implentation.
 ```
 
 
-###HashMaps
+### HashMaps
 HashMaps are a also data structures for relating two pieces of data, the key and the value.  
 They use an underlying hash table for storage.  
 HashMaps rely on the `Hashable` trait's `hash` method.
 
-###Tables
+### Tables
 
 
-###Performance
+### Performance
 |                            | Vector   | List | Array |     Set     | HashSet| Map | HashMap |
 |----------------------------|:--------:|-----:|:-----:|:-----------:|:------:|:---:|:-------:|
 | Access (worst)             | O(log n) | O(n) | N/A   |

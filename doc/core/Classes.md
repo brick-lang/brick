@@ -5,7 +5,7 @@ As mentioned in the syntax page, the `class` keyword starts a class definition b
 All classes are valid types.
 
 
-###The Deadly Diamond of Death
+### The Deadly Diamond of Death
 Brick solves this problem similar to Scala. Brick allows only single inheritance between classes. However, you can implement multiple traits. Traits that share method names shadow previous traits, so the last trait in the trait listing will be what is used.
 
 ## The class system
