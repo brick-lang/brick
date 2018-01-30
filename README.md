@@ -66,7 +66,7 @@ It's come to my attention that some people see Brick as a clone of Rust. This is
 Brick was imagined as a sister language to Rust.
 Where highly performant, low-level applications may be written in Rust, Brick is intended as the flip-side of that coin: highly parallel, high-level applications.
 
-C and C++ (and to some extant Go) are used as systems languages, Rust attepts to bring features from languages like OCaml and Haskell to this area.
+C and C++ (and to some extent Go) are used as systems languages, Rust attepts to bring features from languages like OCaml and Haskell to this area.
 
 On the other hand, Clojure, Scala, and OCaml are the main functional languages for application development. Clojure and Scala are tied to the JVM, while OCaml is in need of a serious overhaul of the runtime (no threading).
 
